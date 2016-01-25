@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pagedef pagesize="A4" pageorientation="portrait" fontsize="10" margin_left="20" margin_right="20" margin_top="20" margin_botton="20">
+	<header>
+		<font fontsize="10" fonttype="Simsun">
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<textbox width="34%" />
+					<font fontsize="15" fonttype="Simsun" fontstyle="bold">
+						<textbox width="30%" align="center" text="{short_name}">
+							<var name="{short_name}" />
+						</textbox>
+					</font>
+					<textbox width="12%" />
+					<textbox width="20%" align="Left" text="Area: {cus_area}">
+						<var name="{cus_area}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<font fontsize="11" fonttype="Simsun">
+					<textbox width="34%" />
+					<textbox width="30%" align="center" text="{name}">
+						<var name="{name}" />
+					</textbox>
+					<textbox width="32%" />
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="STSong-Light">
+					<textbox width="34%"></textbox>
+					<textbox width="30%" align="center" text="{address1}">
+						<var name="{address1}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="34%"></textbox>
+					<textbox width="30%" align="center" text="{address2}">
+						<var name="{address2}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Times-Roman">
+					<textbox width="34%"></textbox>
+					<textbox width="30%" align="center" text="Tel: {tel}">
+						<var name="{tel}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<textbox width="34%"></textbox>
+					<textbox width="30%" align="center" text="Fax: {fax}">
+						<var name="{fax}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<textbox width="100%" />
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun" fontstyle="bold">
+					<textbox width="100%" align="center" text="STATEMENT OF ACCOUNT As At {statement_date}">
+						<var name="{statement_date}" />
+					</textbox>
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<font fontsize="9" fonttype="Simsun" fontstyle="bold">
+					<textbox width="40%" align="Left" text="{cus_company_name}">
+						<var name="{cus_company_name}" />
+					</textbox>
+					</font>
+					<textbox width="40%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" text="Page" />
+					<textbox width="2%" align="center" text=":" />
+					<pagenumber width="14%" align="Left" text="{__PAGE__}">
+						<var name="{__PAGE__}" />
+					</pagenumber>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Courier">
+					<textbox width="40%" align="Left" text="{cus_add1}">
+						<var name="{cus_add1}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="40%" align="Left" text="{cus_add2}">
+						<var name="{cus_add2}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Times-Roman">
+					<textbox width="40%" align="Left" text="{cus_add3}">
+						<var name="{cus_add3}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="verdana">
+					<textbox width="40%" align="Left" text="{cus_add4}">
+						<var name="{cus_add4}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<textbox width="40%" align="Left" text="Tel: {cus_tel} Fax: {cus_fax}">
+						<var name="{cus_tel}" />
+						<var name="{cus_fax}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<textbox width="40%" align="Left" text="Attn: {cus_name}">
+						<var name="{cus_name}" />
+					</textbox>
+					<textbox width="30%" align="center" />
+					<!-- 30% -->
+					<textbox width="14%" align="Right" />
+					<textbox width="2%" align="center" text="" />
+					<textbox width="14%" align="Left">
+						<!-- <var name="{}" /> -->
+					</textbox>
+					<!-- -->
+				</font>
+			</row>
+			<row>
+				<line x1="-1" x2="-1" width="100%" />
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Simsun" fontstyle="bold">
+					<line x1="-1" x2="-1" width="100%" />
+					<textbox width="15%" align="Left" text="Date" />
+					<textbox width="20%" align="Left" text="Reference" />
+					<textbox width="10%" align="Left" text="Type" />
+					<textbox width="15%" align="Left" text="Due Date" />
+					<textbox width="15%" align="Right" text="Amount" />
+					<textbox width="15%" align="Right" text="Balance" />
+				</font>
+			</row>
+		</font>
+	</header>
+
+	<loop>
+		<font fontsize="10" fonttype="Simsun">
+			<row>
+				<font fontsize="10" fonttype="Simsun">
+					<textbox width="15%" align="Left" text="{date}">
+						<var name="{date}" />
+					</textbox>
+					<textbox width="20%" align="Left" text="{reference}">
+						<var name="{reference}" />
+					</textbox>
+					<textbox width="10%" align="Left" text="{type}">
+						<var name="{type}" />
+					</textbox>
+					<textbox width="15%" align="Left" text="{due_date}">
+						<var name="{due_date}" />
+					</textbox>
+					<textbox width="15%" align="Right" text="{amount}">
+						<var name="{amount}" />
+					</textbox>
+					<textbox width="15%" align="Right" text="{balance}">
+						<var name="{balance}" />
+					</textbox>
+				</font>
+			</row>
+		</font>
+	</loop>
+	<body>
+		<font fontsize="10" fonttype="Simsun">
+		</font>		
+	</body>
+	<footer y="100">
+		<font fontsize="10" fonttype="Simsun">
+			<row>
+				<line x1="-1" x2="-1" width="100%" grayscale="90" />
+			</row>
+			<row>
+				<textbox width="60%" text="Account No: " />
+				<textbox width="15%" align="Right" text="Total RM" />
+				<textbox width="15%" align="Right" text="{tbalance}">
+					<var name="{tbalance}" />
+				</textbox>
+			</row>
+			<row>
+				<textbox width="100%" />
+			</row>
+			<row>
+				<textbox width="14%" align="Right" text="Current" />
+				<textbox width="14%" align="Right" text="> 30" />
+				<textbox width="14%" align="Right" text="> 60" />
+				<textbox width="14%" align="Right" text="> 90" />
+			</row>
+			<row>
+				<textbox width="14%" align="Right" text="{current}">
+					<var name="{current}" />
+				</textbox>
+				<textbox width="14%" align="Right" text="{30}">
+					<var name="{30}" />
+				</textbox>
+				<textbox width="14%" align="Right" text="{60}">
+					<var name="{60}" />
+				</textbox>
+				<textbox width="14%" align="Right" text="{90}">
+					<var name="{90}" />
+				</textbox>
+			</row>
+
+		</font>
+	</footer>
+</pagedef>

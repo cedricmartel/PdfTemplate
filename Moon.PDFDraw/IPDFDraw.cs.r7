@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+namespace Moon.PDFDraw
+{
+    public interface IPDFDraw
+    {
+        void DrawString(string txt, float width,
+            XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        void DrawString(string txt, float x, float width,
+            XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        void DrawString(string txt, float x, float y, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        
+        void DrawHorizontalLine(float x_start, float x_end, XmlAttributeCollection lineAttrs);
+        
+        //20130604
+        void DrawRectangle(float x_start, float x_end, float height, bool fill, XmlAttributeCollection lineAttrs);
+        
+        void DrawBlockString(string txt, float x, float width,
+            XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+
+        /// <summary>
+        /// draw at x and CurrentY
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="imageAttrs"></param>
+        void DrawImage(float x, XmlAttributeCollection imageAttrs);
+        /// <summary>
+        /// draw at absolute position x, y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="imageAttrs"></param>
+        void DrawImage(float x, float y, XmlAttributeCollection imageAttrs);
+        void DrawImage(float x, string src, XmlAttributeCollection imageAttrs);
+
+        void NextPage();
+        void NextRow();
+        void NextRow(float height);
+        float CurrentY();
+        bool isNoMoreY(float height);
+        void SetY(float y);
+    }
+}

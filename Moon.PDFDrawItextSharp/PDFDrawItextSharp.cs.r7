@@ -1,0 +1,804 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using Moon.PDFDraw;
+using System.Xml;
+
+namespace Moon.PDFDrawItextSharp
+{
+    public class PDFDrawItextSharp : IPDFDraw
+    {
+        private iTextSharp.text.Document doc;
+
+        private float margin_top = 20;
+        private float margin_bottom = 20;
+        private float margin_left = 20;
+        private float margin_right = 20;
+        private float current_y;
+        private float current_x;
+        private string fontpath = "";
+
+        private iTextSharp.text.pdf.BaseFont baseFont;
+       
+        private iTextSharp.text.pdf.BaseFont _simsunBaseFont;
+        private bool errorSimSun = false;		
+        	//20130603 :: Modify
+        private iTextSharp.text.pdf.BaseFont SimsunBaseFont {
+			get { 
+        		if(_simsunBaseFont == null && !errorSimSun){
+        			
+        			 System.IO.Stream fontStream = null;
+        			 try{
+        			 	Assembly assbly = Assembly.LoadFrom("Moon.PDFDrawFonts");
+        			 	if(assbly == null)throw new Exception("'Moon.PDFDrawFonts' don't found!");
+        			 	fontStream = assbly.GetManifestResourceStream("Moon.PDFDrawItextSharp.Resources.SimSun.ttf");
+        			 	//            		System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Moon.PDFDrawItextSharp.Resources.SimSun.ttf");
+        			 }catch(Exception ex){
+        			 	Console.WriteLine(ex.ToString());
+        			 	errorSimSun = true;
+        			 }
+        			 if(fontStream != null){
+        			 	byte[] fontBytes = new byte[fontStream.Length];
+        			 	fontStream.Read(fontBytes, 0, fontBytes.Length);
+        			 	
+        			 	_simsunBaseFont = iTextSharp.text.pdf.BaseFont.CreateFont(
+        			 		"SimSun.ttf",
+        			 		"Identity-H",
+        			 		iTextSharp.text.pdf.BaseFont.EMBEDDED,
+        			 		iTextSharp.text.pdf.BaseFont.CACHED,
+        			 		fontBytes,
+        			 		null);
+        			 }
+        			 //----
+        		}
+        		
+        		return _simsunBaseFont; 
+        	}
+		}
+
+        private iTextSharp.text.Font font;
+        private iTextSharp.text.Rectangle pageSize;
+        private iTextSharp.text.pdf.PdfWriter writer;
+        private iTextSharp.text.pdf.PdfContentByte cb;
+
+
+        public PDFDrawItextSharp(iTextSharp.text.Rectangle pageSize, float marginLeft, float marginRight, float marginTop, float marginBottom, System.IO.Stream stream, string fontpath)
+        {
+            this.fontpath = fontpath;
+            this.margin_left = marginLeft;
+            this.margin_right = marginRight;
+            this.margin_top = marginTop;
+            this.margin_bottom = marginBottom;
+            this.pageSize = pageSize;
+            doc = new iTextSharp.text.Document(pageSize, margin_left, margin_right, margin_top, margin_bottom);
+            writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, stream);
+            doc.Open();
+            cb = writer.DirectContent;
+
+            _init();
+            initRow();
+        }
+
+        public PDFDrawItextSharp(iTextSharp.text.Rectangle pageSize, float marginLeft, float marginRight, float marginTop, float marginBottom, System.IO.Stream stream)
+        {
+            this.margin_left = marginLeft;
+            this.margin_right = marginRight;
+            this.margin_top = marginTop;
+            this.margin_bottom = marginBottom;
+            this.pageSize = pageSize;
+            doc = new iTextSharp.text.Document(pageSize, margin_left, margin_right, margin_top, margin_bottom);
+            writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, stream);
+            doc.Open();
+            cb = writer.DirectContent;
+
+            _init();
+            initRow();
+            
+        }
+        private void _init()
+        {
+            if (fontpath != string.Empty)
+            {
+                baseFont = iTextSharp.text.pdf.BaseFont.CreateFont(fontpath, iTextSharp.text.pdf.BaseFont.IDENTITY_H, iTextSharp.text.pdf.BaseFont.EMBEDDED);
+            }
+            else
+            {
+                baseFont = iTextSharp.text.pdf.BaseFont.CreateFont(iTextSharp.text.pdf.BaseFont.COURIER, iTextSharp.text.pdf.BaseFont.CP1252, iTextSharp.text.pdf.BaseFont.EMBEDDED);
+            }
+            
+            font = new iTextSharp.text.Font(baseFont, 10);
+            cb.SetFontAndSize(font.BaseFont, font.Size);
+
+            // ----------------------------------------------------------------
+            // create the simsunBaseFont
+            
+            //20130603 :: Modify
+//            System.IO.Stream fontStream = null;
+//            try{
+//            	Assembly assbly = Assembly.LoadFrom("Moon.PDFDrawFonts");
+//            	if(assbly == null)throw new Exception("'Moon.PDFDrawFonts' don't found!");
+//            	fontStream = assbly.GetManifestResourceStream("Moon.PDFDrawItextSharp.Resources.SimSun.ttf");
+////            		System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Moon.PDFDrawItextSharp.Resources.SimSun.ttf");
+//            }catch(Exception ex){
+//            	Console.WriteLine(ex.ToString());
+//            }
+//            if(fontStream != null){
+//            	byte[] fontBytes = new byte[fontStream.Length];
+//            	fontStream.Read(fontBytes, 0, fontBytes.Length);
+//            	
+//            	_simsunBaseFont = iTextSharp.text.pdf.BaseFont.CreateFont(
+//            		"SimSun.ttf",
+//            		"Identity-H",
+//            		iTextSharp.text.pdf.BaseFont.EMBEDDED,
+//            		iTextSharp.text.pdf.BaseFont.CACHED,
+//            		fontBytes,
+//            		null);
+//            }
+//			//-----
+            //-----------------------------------------------------------------
+        }
+
+        public void Close()
+        {
+            doc.Close();
+        }
+        public float Current_y
+        {
+            get { return current_y; }
+            set { current_y = value; }
+        }
+        public float Current_x
+        {
+            get { return current_x; }
+            set { current_x = value; }
+        }
+        public float Margin_top
+        {
+            get { return margin_top; }
+            set { margin_top = value; }
+        }
+
+        public float Margin_bottom
+        {
+            get { return margin_bottom; }
+            set { margin_bottom = value; }
+        }
+
+        public float Margin_left
+        {
+            get { return margin_left; }
+            set { margin_left = value; }
+        }
+
+        public float Margin_right
+        {
+            get { return margin_right; }
+            set { margin_right = value; }
+        }
+        // --------------------------------------------------------------------
+        private void MoveX(float width)
+        {
+            Current_x += width;
+        }
+        /// <summary>
+        /// move y to next row with default font height
+        /// </summary>
+        public void NextRow()
+        {
+            NextRow(font.Size + 1);
+        }
+        /// <summary>
+        /// move y to next row with height
+        /// </summary>
+        /// <param name="height"></param>
+        public void NextRow(float height)
+        {
+            Current_y -= height + 1;
+            Current_x = Margin_left;
+            if (Current_y < Margin_bottom)
+            {
+                NextPage();
+            }
+#if DEBUG
+            //Console.WriteLine("NextRow() Current_y: " + Current_y);
+#endif
+        }
+        /// <summary>
+        /// check is no more space for next row with default font height
+        /// </summary>
+        /// <returns></returns>
+        public bool isNoMoreY()
+        {
+            return isNoMoreY(font.Size);
+        }
+        /// <summary>
+        /// check is no more space for next row with height
+        /// true, no more spare
+        /// false, still got space
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public bool isNoMoreY(float height)
+        {
+            bool r = false;
+            if (Current_y - height <= Margin_bottom)
+            {
+                r = true;
+            }
+            //Console.WriteLine("PDFDrawItextSharp.isNoMoreY(height) height: " + height + " bool: " + r);
+            return r;
+        }
+        /// <summary>
+        /// is the Current_x already reach to the right side
+        /// </summary>
+        /// <returns></returns>
+        public bool isNoMoreX()
+        {
+            bool r = false;
+            if (Current_x >= pageSize.Width - Margin_right)
+            {
+                r = true;
+            }
+            return r;
+        }
+        /// <summary>
+        /// from the current_x, can it fit a width?
+        /// </summary>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public bool canFitWidth(float width)
+        {
+            bool r = true;
+            if (Current_x + width > pageSize.Width - Margin_right)
+            {
+                r = false;
+            }
+            return r;
+        }
+        public void NextPage()
+        {
+            doc.NewPage();
+            initRow();
+        }
+        public float CurrentY()
+        {
+            return Current_y;
+        }
+        public void SetY(float y)
+        {
+            Current_y = y;
+        }
+        /// <summary>
+        /// Add a blank page
+        /// </summary>
+        public void BlankPage()
+        {
+            doc.Add(new iTextSharp.text.Chunk(""));
+        }
+        /// <summary>
+        /// set x, y to the top of the page with margin top and margin left
+        /// </summary>
+        private void initRow()
+        {
+            // set cursor to upper left of page
+            Current_y = pageSize.Height - margin_top;
+            Current_x = margin_left;
+        }
+        
+
+
+
+        //---------------------------------------------------------------------
+        // implement interface from IPDFDraw
+        public void DrawString(string txt, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+            int align = PDFDrawItextSharpHelper.Align(Moon.PDFDraw.Helper.GetAttributeValue("align", textAttrs, "Near"));
+            iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
+            iTextSharp.text.Phrase phrase = selector.Process(txt);
+            float width = 0;
+            foreach (iTextSharp.text.Chunk chunk in phrase.Chunks)
+            {
+                width += chunk.GetWidthPoint();
+            }
+
+            DrawString(phrase, Current_x, width, align);
+            
+        }
+        public void DrawString(string txt, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            DrawString(txt, Current_x, width, fontAttrs, textAttrs);
+        }
+
+        //
+        //
+        public void DrawString(string txt, float x, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            // this was call from TextBox
+            //fontsize, fontstyle, fontcolor
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+            int align = PDFDrawItextSharpHelper.Align(Moon.PDFDraw.Helper.GetAttributeValue("align", textAttrs, "Left"));
+            iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
+            iTextSharp.text.Phrase phrase = selector.Process(txt);
+
+            DrawString(phrase, x, width, align);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="chunk"></param>
+        /// <param name="x"></param>
+        /// <param name="width"></param>
+        /// <param name="ELEMENT_ALIGN">iTextSharp.text.Element.ALIGN_x</param>
+        public void DrawString(iTextSharp.text.Phrase phrase, float x, float width, int ELEMENT_ALIGN)
+        {
+            DrawString(phrase, x, Current_y, width, ELEMENT_ALIGN);
+        }
+
+        public void DrawString(string txt, float x, float y, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            //fontsize, fontstyle, fontcolor
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+            int align = PDFDrawItextSharpHelper.Align(Moon.PDFDraw.Helper.GetAttributeValue("align", textAttrs, "Near"));
+            iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
+            iTextSharp.text.Phrase phrase = selector.Process(txt);
+
+            DrawString(phrase, x, y, width, align);
+        }
+
+        public void DrawString(iTextSharp.text.Phrase phrase, float x, float y, float width, int ELEMENT_ALIGN)
+        {
+            DrawString(cb, phrase, x, y, width, ELEMENT_ALIGN);
+            MoveX(width);
+        }
+        public static void DrawString(
+            iTextSharp.text.pdf.PdfContentByte cb, iTextSharp.text.Phrase phrase,
+            float x, float y, float width, int ELEMENT_ALIGN)
+        {
+            iTextSharp.text.pdf.ColumnText column = new iTextSharp.text.pdf.ColumnText(cb);
+
+            //column.SetSimpleColumn(x, y, x + width, (y + chunk.Font.Size + (chunk.Font.Size / 2) + 2));
+            column.SetSimpleColumn(x, y - 2, (x + width), (y + 18));
+
+            column.AddText(phrase);
+            column.Alignment = ELEMENT_ALIGN;
+            column.Go();
+        }
+
+
+        //-------------------------------------------------------------------------
+        public void DrawString2(iTextSharp.text.Chunk chunk, float x, float y, float width, int ELEMENT_ALIGN)
+        {
+            DrawString2(cb, chunk, x, y, width, ELEMENT_ALIGN);
+            MoveX(width);
+        }
+        /// <summary>
+        /// implement the low level draw text, only use basefont.. lack of font
+        /// </summary>
+        /// <param name="cb"></param>
+        /// <param name="chunk"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="ELEMENT_ALIGN"></param>
+        public static void DrawString2(
+            iTextSharp.text.pdf.PdfContentByte cb, iTextSharp.text.Chunk chunk,
+            float x, float y, float width, int ELEMENT_ALIGN)
+        {
+            cb.BeginText();
+            cb.SetFontAndSize(chunk.Font.BaseFont, chunk.Font.Size);
+            switch (ELEMENT_ALIGN)
+            {
+                case iTextSharp.text.Element.ALIGN_LEFT:
+                    cb.ShowTextAligned(ELEMENT_ALIGN, chunk.Content, x, y + 2, 0);
+                    break;
+                case iTextSharp.text.Element.ALIGN_RIGHT:
+                    cb.ShowTextAligned(ELEMENT_ALIGN, chunk.Content, x + width, y + 2, 0);
+                    break;
+                case iTextSharp.text.Element.ALIGN_CENTER:
+                    cb.ShowTextAligned(ELEMENT_ALIGN, chunk.Content, x + (width / 2), y + 2, 0);
+                    break;
+            }
+            cb.EndText();
+        }
+        //---------------------------------------------------------------------
+        public void DrawBlockString(string txt, float width,
+            XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            DrawBlockString(txt, Current_x, width, fontAttrs, textAttrs);
+        }
+        public void DrawBlockString(string txt, float x, float width,
+            XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs)
+        {
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+            int align = PDFDrawItextSharpHelper.Align(
+                Moon.PDFDraw.Helper.GetAttributeValue("align", textAttrs, "Near"));
+            iTextSharp.text.Chunk chunk = new iTextSharp.text.Chunk(txt, font);
+            float height = Moon.PDFDraw.Helper.GetFloatAttributeValue(
+                "height", textAttrs, font.Size + (font.Size / 2));
+
+            DrawBlockString(chunk, x, width, align, height);
+        }
+        public void DrawBlockString(iTextSharp.text.Chunk chunk, float x, float width, int ELEMENT_ALIGN, float height)
+        {
+            iTextSharp.text.pdf.ColumnText column = new iTextSharp.text.pdf.ColumnText(cb);
+            column.SetSimpleColumn(x, current_y, x + width, current_y + height);
+            column.AddText(chunk);
+            column.Alignment = ELEMENT_ALIGN;
+            column.SetLeading(0, 1);
+            column.Go();
+        }
+        
+        // implement interface from IPDFDraw
+        public void DrawHorizontalLine(float x_start, float x_end, XmlAttributeCollection lineAttrs)
+        {
+            // attribute
+            // color, linethickness
+            iTextSharp.text.BaseColor color = new iTextSharp.text.BaseColor(Moon.PDFDraw.Helper.GetAttributeColor("color", lineAttrs, "Black"));
+            float lineThickness = Moon.PDFDraw.Helper.GetFloatAttributeValue("linethickness", lineAttrs, 1f);
+
+            DrawHorizontalLine(x_start, x_end, lineThickness, color);
+        }
+        /// <summary>
+        /// Draw a vertical line on the current y with default line width of 1
+        /// </summary>
+        /// <param name="x_start"></param>
+        /// <param name="x_end"></param>
+        public void DrawHorizontalLine(float x_start, float x_end)
+        {
+            DrawHorizontalLine(x_start, x_end, 1);
+        }
+        public void DrawHorizontalLine(float x_start, float x_end, float lineThickness)
+        {
+            // default black color
+            DrawHorizontalLine(x_start, x_end, lineThickness, new iTextSharp.text.BaseColor(0, 0, 0));
+        }
+        public void DrawHorizontalLine(float x_start, float x_end, float lineWidth, iTextSharp.text.BaseColor color)
+        {
+            cb.SaveState();
+            cb.SetLineWidth(lineWidth);
+            cb.SetColorStroke(color);
+            cb.MoveTo(x_start, Current_y);
+            cb.LineTo(x_end, Current_y);
+            cb.Stroke();
+            cb.RestoreState();
+        }
+        
+        
+        #region Rectangle
+       
+        //interface
+        public void DrawRectangle(float x_start, float x_end, float height, bool fill, XmlAttributeCollection rectAttrs)
+        {
+         	// attribute
+            // color, linethickness
+            iTextSharp.text.BaseColor color = new iTextSharp.text.BaseColor(Moon.PDFDraw.Helper.GetAttributeColor("color", rectAttrs, "Black"));
+            float lineThickness = Moon.PDFDraw.Helper.GetFloatAttributeValue("linethickness", rectAttrs, 1f);
+            
+            DrawRectangle(x_start, x_end, height, fill, lineThickness, color );
+          }
+          
+        //TODO en desarrollo. Por probar. NADA hecho.
+         public void DrawRectangle(float x_start, float x_end, float height, bool fill, float lineWidth, iTextSharp.text.BaseColor color)
+        {
+            cb.SaveState();
+            
+            cb.SetLineWidth(lineWidth);
+            cb.SetColorStroke(color);
+            
+            
+            //cb.LineTo(x_end, Current_y);
+            cb.Rectangle(x_start, Current_y, x_end, height);            
+            
+            if(!fill){
+            	cb.MoveTo(x_start, Current_y);
+            }
+            
+            cb.Stroke();
+            cb.RestoreState();            
+                   
+        }
+        
+        #endregion
+        
+        /// <summary>
+        /// Draw on CurrentY
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="imageAttrs"></param>
+        public void DrawImage(float x, XmlAttributeCollection imageAttrs)
+        {
+            iTextSharp.text.Image img = CreateImageFromAttribute(imageAttrs);            
+           DrawImage(img, x, Current_y);
+        }
+        public void DrawImage(float x, string src, XmlAttributeCollection imageAttrs)
+        {
+            iTextSharp.text.Image img = CreateImageFromAttribute(src, imageAttrs);           
+            DrawImage(img, x, Current_y);
+        }
+        /// <summary>
+        /// Draw at absolute position x, y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="imageAttrs"></param>
+        public void DrawImage(float x, float y, XmlAttributeCollection imageAttrs)
+        {
+            iTextSharp.text.Image img = CreateImageFromAttribute(imageAttrs);          
+ 			DrawImage(img, x, y);
+        }
+        
+        public void DrawImage(iTextSharp.text.Image img, float x, float y)
+        {
+             //20130603 :: Modify
+             if(img == null){
+             	Console.WriteLine("Image its null. Don't draw it.");
+             	return;
+             }
+             //----
+        	//img.f
+            img.SetAbsolutePosition(x, y);
+            cb.AddImage(img);
+        }
+        //---------------------------------------------------------------------
+        public iTextSharp.text.Chunk CreateChunk(string text, XmlAttributeCollection fontAttrs)
+        {
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+            return CreateChunk(text, font);
+        }
+        public iTextSharp.text.Chunk CreateChunk(string text, iTextSharp.text.Font font)
+        {
+            return new iTextSharp.text.Chunk(text, font);
+        }
+        public iTextSharp.text.Phrase CreatePhrase(string text, XmlAttributeCollection fontAttrs)
+        {
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+
+            return CreatePhrase(text, font);
+        }
+        public iTextSharp.text.Phrase CreatePhrase(string text, iTextSharp.text.Font font)
+        {
+            iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
+            iTextSharp.text.Phrase phrase = selector.Process(text);
+            phrase.Leading = font.Size;
+
+            return phrase;
+        }
+        public iTextSharp.text.Paragraph CreateParagraph(string text, XmlAttributeCollection fontAttrs)
+        {
+            iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
+
+            return CreateParagraph(text, font);
+        }
+        public iTextSharp.text.Paragraph CreateParagraph(string text, iTextSharp.text.Font font)
+        {
+            iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
+            iTextSharp.text.Phrase phrase = selector.Process(text);
+            phrase.Leading = font.Size;
+            iTextSharp.text.Paragraph paragraph = new iTextSharp.text.Paragraph(phrase);
+
+            return paragraph;
+        }
+        public iTextSharp.text.Image CreateImageFromAttribute(XmlAttributeCollection imgAttrs)
+        {
+            string src = Moon.PDFDraw.Helper.GetAttributeValue("src", imgAttrs, "");
+            return CreateImageFromAttribute(src, imgAttrs);
+        }
+        public iTextSharp.text.Image CreateImageFromAttribute(string src, XmlAttributeCollection imgAttrs)
+        {
+        	try{
+	            float width = Moon.PDFDraw.Helper.GetFloatAttributeValue("width", imgAttrs, -1);
+	            float height = Moon.PDFDraw.Helper.GetFloatAttributeValue("height", imgAttrs, -1);
+	            float x = Moon.PDFDraw.Helper.GetFloatAttributeValue("x", imgAttrs, -1);
+	            float y = Moon.PDFDraw.Helper.GetFloatAttributeValue("y", imgAttrs, -1);
+	            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(src);
+	            if (width != -1 && height != -1)
+	            {
+	                img.ScaleToFit(width, height);
+	            }
+	            if (x != -1 && y != -1)
+	            {
+	                img.SetAbsolutePosition(x, y);
+	            }
+	            return img;
+	            
+	            //20130603 :: Modify
+        	}catch(Exception ex){        	
+        		Console.WriteLine(ex);
+        		return null;
+        	}
+        }
+        public iTextSharp.text.Font CreateFontFromAttribute(XmlAttributeCollection fontAttrs)
+        {
+            iTextSharp.text.Font font = CreateFont(
+                Moon.PDFDraw.Helper.GetAttributeValue("fonttype", fontAttrs, "Courier"));
+
+            font.Size = Moon.PDFDraw.Helper.GetFloatAttributeValue("fontsize", fontAttrs, 10f);
+            font.SetStyle(PDFDrawItextSharpHelper.FontStyle(
+                Moon.PDFDraw.Helper.GetAttributeValue("fontstyle", fontAttrs, "REGULAR")));
+            font.Color = new iTextSharp.text.BaseColor(
+                Moon.PDFDraw.Helper.GetAttributeColor("fontcolor", fontAttrs, "Black"));
+
+            return font;
+        }
+        public iTextSharp.text.Font CreateFont(string fontFamilyName)
+        {
+            iTextSharp.text.Font font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER);
+            switch (fontFamilyName.ToUpper())
+            {
+                case "COURIER":
+                    //font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER);
+                    break;
+                case "HELVETICA":
+                    font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA);
+                    break;
+                case "SYMBOL":
+                    font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.SYMBOL);
+                    break;
+                case "TIMES-ROMAN":
+                    font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
+                    break;
+                case "ZAPFDINGBATS":
+                    font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.ZAPFDINGBATS);
+                    break;
+                case "SIMSUN":
+					//20130603 :: Modify                   
+                    if(SimsunBaseFont == null){
+						Console.WriteLine("SimSun not found! Font changed to Times Roman.");
+                    	font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
+                    }
+					else{
+                    	font = new iTextSharp.text.Font(SimsunBaseFont);
+					}
+                    break;
+                    //----
+            }
+            return font;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        public iTextSharp.text.pdf.FontSelector FontSelector(iTextSharp.text.Font font)
+        {
+        	iTextSharp.text.pdf.FontSelector selector = new iTextSharp.text.pdf.FontSelector();
+        	if (font.Familyname.ToUpper() != "SIMSUN")
+        	{
+        		selector.AddFont(font);
+        	}
+        	else{
+        		//20130603 :: Modify
+        		if(SimsunBaseFont != null){
+        			iTextSharp.text.Font simsunFont = new iTextSharp.text.Font(SimsunBaseFont, font.Size);
+        			simsunFont.SetStyle(font.Style);
+        			simsunFont.Color = font.Color;
+        			selector.AddFont(new iTextSharp.text.Font(simsunFont));
+        		}
+        		else{
+        			Console.WriteLine("SimSun not charged!");
+        			//TODO need charge any font to run correctly.
+        		}
+        		//----
+        	}
+            return selector;
+        }
+        //---------------------------------------------------------------------
+        // table
+        public void DrawTable(iTextSharp.text.pdf.PdfPTable table, float x, float y)
+        {
+            table.WriteSelectedRows(0, -1, x, y, cb);
+        }
+        public iTextSharp.text.pdf.PdfPTable CreateTable(float width, int cellPerRow, float[] cellWidth)
+        {
+            iTextSharp.text.pdf.PdfPTable table = new iTextSharp.text.pdf.PdfPTable(cellPerRow);
+            table.TotalWidth = width;
+            table.LockedWidth = true;
+            table.SetWidths(cellWidth);
+
+            return table;
+        }
+        public iTextSharp.text.pdf.PdfPTable CreateTable(XmlAttributeCollection attrs)
+        {
+            float tableWidth = Moon.PDFDraw.Helper.GetFloatAttributeValue("tablewidth", attrs, -1);
+            int cellPerRow = Moon.PDFDraw.Helper.GetIntAttributeValue("cellperrow", attrs, -1);
+            float[] cellWidth = Moon.PDFDraw.Helper.GetFloatArray("cellwidth", attrs);
+            
+
+            return CreateTable(tableWidth, cellPerRow, cellWidth);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="colspan"></param>
+        /// <param name="enableBroder_RECTANGLE_BORDER">iTextSharp.text.Rectangle.BOTTOM_BORDER
+        ///        | iTextSharp.text.Rectangle.RIGHT_BORDER
+        ///        | iTextSharp.text.Rectangle.LEFT_BORDER
+        ///        | iTextSharp.text.Rectangle.TOP_BORDER</param>
+        /// <param name="horizontal_ELEMENT_ALIGN"></param>
+        /// <param name="borderColor"></param>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        public iTextSharp.text.pdf.PdfPCell CreateTableCell(
+            int colspan,
+            int enableBroder_RECTANGLE_BORDER,
+            int horizontal_ELEMENT_ALIGN,
+            iTextSharp.text.BaseColor borderColor,
+            string text,
+            iTextSharp.text.Font font)
+        {
+            iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell();
+            if (colspan > 1)
+            {
+                cell.Colspan = colspan;
+            }
+            cell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            cell.EnableBorderSide(enableBroder_RECTANGLE_BORDER);
+            cell.HorizontalAlignment = horizontal_ELEMENT_ALIGN;
+            cell.BorderColor = borderColor;
+            cell.Phrase = new iTextSharp.text.Phrase(text, font);
+            cell.UseAscender = true;
+            cell.UseDescender = false;
+
+            return cell;
+        }
+        public iTextSharp.text.pdf.PdfPCell CreateTableCell(XmlAttributeCollection cellAttrs)
+        {
+            int colspan = Moon.PDFDraw.Helper.GetIntAttributeValue("colspan", cellAttrs, 0);
+            int horizontalalign = PDFDrawItextSharpHelper.Align(
+                Moon.PDFDraw.Helper.GetAttributeValue("horizontalalign", cellAttrs, "Left"));
+            int border = PDFDrawItextSharpHelper.Border(
+                Moon.PDFDraw.Helper.GetStringArray("border", cellAttrs));
+            iTextSharp.text.BaseColor borderColor = new iTextSharp.text.BaseColor(
+                Moon.PDFDraw.Helper.GetAttributeColor("bordercolor", cellAttrs, "Black"));
+
+#if DEBUG
+            //Console.WriteLine("PDFDrawItextSharp.CreateTableCell Border: " + border);
+#endif
+
+            iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell();
+            //iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase("xx"));
+            if (colspan > 1)
+            {
+                cell.Colspan = colspan;
+            }
+            
+
+            float borderWidth = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidth", cellAttrs, -1);
+            float borderWidthLeft = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthleft", cellAttrs, -1);
+            float borderWidthTop = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthtop", cellAttrs, -1);
+            float borderWidthRight = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthright", cellAttrs, -1);
+            float borderWidthBottom = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthbottom", cellAttrs, -1);
+            if (borderWidth != -1) cell.BorderWidth = borderWidth;
+            if (borderWidthLeft != -1) cell.BorderWidthLeft = borderWidthLeft;
+            if (borderWidthTop != -1) cell.BorderWidthTop = borderWidthTop;
+            if (borderWidthRight != -1) cell.BorderWidthRight = borderWidthRight;
+            if (borderWidthBottom != -1) cell.BorderWidthBottom = borderWidthBottom;
+
+            cell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            cell.EnableBorderSide(border);
+            cell.HorizontalAlignment = horizontalalign;
+            
+            //cell.VerticalAlignment = iTextSharp.text.Element.ALIGN_TOP;
+            cell.BorderColor = borderColor;
+
+            cell.UseAscender = true;
+            cell.UseDescender = false;
+
+            return cell;
+        }
+        public iTextSharp.text.pdf.PdfPCell CreateTableCell(
+            XmlAttributeCollection attrs, 
+            string text,
+            iTextSharp.text.Font font)
+        {
+            iTextSharp.text.pdf.PdfPCell cell = CreateTableCell(attrs);
+            cell.AddElement(new iTextSharp.text.Phrase(text, font));
+
+            return cell;
+        }
+    }
+}

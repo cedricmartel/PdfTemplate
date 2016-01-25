@@ -1,0 +1,240 @@
+===================================
+PDFTemplate Document 
+===================================
+- Revision: 20130615
+
+===================================
+
+
+
+-Template structure: 
+====================
+
+<pagedef>
+	<header></header>
+	<table>
+    <tablehead></tablehead>
+    <tableloop></tableloop>
+    <tablefoot></tablefoot>
+  </table>
+	<loop></loop>
+	<body></body>
+	<footer></footer>
+</pagedef>
+
+
+-PDF generation:
+================
+
+Pdf will be generated in this sequence.
+1. header
+2. table
+3. loop
+4. body
+5. footer
+
+
+-Some XML elements:
+===================
+
+	<font>
+		<row>
+			<font>
+				<textbox fontsize="10" fontstyle="regular" fonttype="Courier" fontcolor="Black" align="near" text="this is a {xx}.">
+					<var name="{xx}" />
+				</textbox>
+			</font>
+			<textbox></textbox>
+			<line x1="-1" x2="-1" width="100%" color="Blue" linethickness="0.5" />
+			<image></image>
+		</row>
+	</font>
+
+<table>
+	<tablehead>
+		<tablerow>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+		</tablerow>
+	</tablehead>
+	<tableloop>
+		<tablerow>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+		</tablerow>
+	</tableloop>
+	<tablefoot>
+		<tablerow>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+			<tablecell>
+				<textbox></textbox>
+			</tablecell>
+		</tablerow>
+	</tablefoot>
+</table>
+
+
+-XML elements:
+==============
+
+- Document parts:
+-----------------
+header  
+	
+loop
+
+body
+
+footer
+	y			[float] absolute position, footer start at y at the last page. if no y, footer start at nextrow after body
+	absolute	[yes|no] If its true footer it's printed in all pages.
+
+
+-Modifiers:
+-----------
+font
+	fontsize	float
+	fontstyle	[REGULAR|BOLD|BOLDITALIC|ITALIC|UNDERLINE|STRIKEOUT]
+	fonttype	PDFDrawItextSharp[Courier|Helvetica|Symbol|Times-Roman|ZapfDingbats|SimSun]
+	fontcolor	html/css color, etc Red, Black, 
+
+pagedef
+	pagesize		[A4|Note|Letter]	default A4
+	margin_left		[float]					default 20
+	margin_top		[float]					default 20
+	margin_right	[float]					default 20
+	margin_bottom	[float]					default 20
+	pageorientation	[Portrait|Landscape]	default Portrait
+
+	#custom size
+	width			[float]
+	height			[float]
+
+	#background image
+	backgroundimage				the image path for page background image
+	backgroundimagealignment	[Center|TopLeft|TopCenter|TopRight] background image alignment.
+	backgroundimagemargins		[yes|no] if it's true use page margins, otherwise starts in 0,0 position
+	backgroundimagescaletofit	[yes|no] if it's true resize image to fit into the page. Mantain aspect ratio.
+
+
+-DrawElements:
+--------------
+textbox			Text display in a row, if width not enough, extra text will not be display
+	text		[""]
+	align		[Left|Right|Center|Top|Bottom|justified|justifiedall]
+	width		percentage	(width = (PageSize.width - MarginLeft - MarginRight) * widthPercentage
+	
+	backgroundcolor		html/css color, etc Red, Black, 
+	backgroundfill		[yes|no] 
+	borders				[Left,Top,Bottom,Right] 
+	borderwidth			float
+	
+	vacontrol	[yes|no|all] Control over inside vars.  No: it's standard mode, Yes: Print text when at least one var it's present. All: Print text when all vars are present. 
+
+		var		replacement data to the text attribute
+				optional	[yes|no] (There is a static var to enable it (PDFTemplate.UseOptionalTags))	If true, if data don't found var name it's printed. Othewise, if it's false, empty string or DefaultValue from formatter will be printed.
+				formatter 	[Text|Number|DateTime|Boolean|Custom)]. (Custom must be IVarFormatter. Default class BasicVarFormatter.)
+				formatterparameters text	Parameters to configure the formatter. Most used parameters are 'defaultvalue' and 'formatstring'. For custom formatter it's needed classname parameter.
+
+	example		text="This is date {date}"
+				var {date}
+				data in hashtable
+					"{date}" = "2012-10-10"
+				when Draw, the data in hashtable will replace to the text attribute {date}.
+				the final result of text is "This is date 2012-10-10"
+
+textblock		Text draw in a rectangle, if height is not enought, extra text will not be display. It has all TextBox attributes.
+	align		[Left|Right|Center|Top|Bottom]
+	height		float
+	width		percentage
+
+pagenumber		a special tag, only the first pagenumber tag will be use. others will be ignore!
+              to be place in the header section
+	text		"{__PAGE__} of {__TOTALPAGE__}", "{__PAGE__}/{__TOTALPAGE__}"
+	align		[Left|Right|Center|Top|Bottom]
+		var		{__PAGE__}
+		var		{__TOTALPAGE__}
+
+line
+	# this is an underline
+	# absolute x1, x2 position
+	x1				float
+	x2				float
+	
+	#width will supersede x1, x2. will display at CurrentX with width
+	width			percentage	(width = (PageSize.width - MarginLeft - MarginRight) * widthPercentage
+
+	color			html/css color
+	linethickness	float
+
+  # when using with width percentage, the element after line will draw at the line position.
+  # put an empty textbox with the same width percentage of the line if u do not want you text
+  # draw on top of the line
+
+	Underline	
+	<row><line width="20%" ><textbox text="above the line" width="20%" /></row>
+	above the line		
+	--------------		# pls just assume this is a solid line!!
+
+	Line before text, just add a same width empty textbox before your text textbox
+	<row>
+		<line width="20%" >
+		<textbox text="" width="20%" />
+		<textbox text="after the line" width="20%" />
+	</row>
+	______________ after the line
+
+
+
+table
+	tablewidth		float		400
+	cellperrow		int			3
+	cellwidth		float[]		2, 1, 1
+								cell0=200, cell1=100, cell2=100
+	
+	#width will supersede tablewidth
+	width			percentage
+
+tablerow
+
+tablecell
+	colspan			[int]
+	horizontalalign	[Left|Right|Center]
+	bordercolor		[html/css color]				not define = black color					
+	verticalalign	[Top|Middle|Bottom]
+
+	border			[Left, Top, Right, Bottom]		not define = no border
+	borderwidth		[float]
+	
+	backgroundcolor	html/css color
+
+	#the following borderwidthX will supersede [border] and [borderwidth]
+	borderwidthleft	[float]
+	borderwidthtop	[float]
+	borderwidthright	[float]
+	borderwidthbottom	[float]
+
+image
+	src			the image path
+	
+	width		float
+	height		float
+
+	x			[float]	absolute position
+	y			[float] absolute position
+		var		replace text in src
+	
+	align		[Left|Right|Center|Top|Bottom] (only work under tablecell)
+
+custom	Allows develop own draw elements. Must be a DrawElement child. (Default class -> DefaultCustomElement)
+	classname	text Custom class name

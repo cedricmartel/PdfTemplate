@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pagedef pagesize="A4" margin_left="20" margin_right="20" margin_top="10" margin_bottom="10" pageorientation="portrait" 
+         backgroundimage="background.png" backgroundimagemargins="yes"  backgroundimagescaletofit="yes" backgroundimagealignment="TopRight" >
+	<!-- 
+		pageorientation="lanscape,portrait"
+		pagesize="A0-A5,RA0-RA5,B0-B5,letter,statement"
+						width		height
+			letter		-> 8.5' x 11' 
+			statement	-> 5.5' x 8.5'
+	-->
+
+	<header>
+		<font fontsize="10" fonttype="Helvetica">
+		<!--
+			fontsize="10....."
+			fonttype="Courier,Verdana,Arial....."
+			//fontstyle="Regular,Bold,Italic,BoldItalic,Underline,Strikeout" ???
+		-->
+<!-- cabecera con los datos de rosa y al final algo del cliente, para intercalar -->
+			<row>							
+				<textbox width="10%" align="left" text="" />
+				<image src="balanza.png" width="100" height="50" align="center" />					
+				
+			</row>
+
+			<row>
+				<font fontsize="10" fonttype="Helvetica" fontstyle="bold">
+					<textbox width="30%" align="center" text="Rosa Mª Francisco Souto" />
+					<textbox width="10%"/>
+
+				</font>
+			</row>
+
+			<row>
+				<font fontsize="10" fonttype="Helvetica"  fontstyle="bold">
+					<textbox width="30%" align="center" text="Procuradora de los Tribunales" />
+					<textbox width="10%"/>
+
+				</font>
+			</row>
+
+			<row>
+				<font fontsize="8" fonttype="Helvetica">
+					<textbox width="30%" align="center" text="NIF: 35.567.237-Z" />
+					<textbox width="10%"/>
+
+				</font>
+				<line x1="280" x2="540"  linethickness="0.1" /> 
+			</row>
+
+			<row>
+				<font fontsize="8" fonttype="Helvetica">
+					<textbox width="30%" align="center" text="Concepción Arenal 53-2 4ºD" />
+					<textbox width="10%"/>
+
+				</font>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="60%" align="right" text="" />
+				</font>	
+			</row>
+
+			<row>
+				<font fontsize="8" fonttype="Helvetica">
+					<textbox width="30%" align="center" text="36900 Marín (Pontevedra)" />
+					<textbox width="10%"/>
+
+				</font>
+				
+				<!-- aqui ya empezamos con el cliente -->
+				<font fontsize="12" fonttype="Helvetica">
+					<textbox width="50%" align="right" text="{customer_name} {customer_surname}" > 
+						<var name="{customer_name}" optional="yes"/>
+						<var name="{customer_surname}" optional="yes"/>			
+					</textbox>
+					<textbox width="10%" align="center" text="" /> 
+				</font>
+			</row>
+<!-- fin cabecera --> 
+
+<!-- cabecera de cliente y datos de presupuesto -->
+
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="40%" align="center" text="" /> 
+					<textbox width="50%" align="right" text="CIF/NIF: {cif_nif}" height="25">
+						<var name="{cif_nif}" optional="yes"/>
+					</textbox >
+					<textbox width="10%" align="center" text="" /> 
+				</font>
+			</row>
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="40%" align="center" text="" /> 
+					<textbox width="50%" align="right" text="" />
+					<textbox width="10%" align="center" text="" /> 
+				</font>
+			</row>
+<!--
+   {}
+-->
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="20%" align="center" text="" /> 
+					<textbox width="70%" align="right" text="{customer_address}" >
+						<var name="{customer_address}" optional="yes" />
+					</textbox>
+					<textbox width="10%" align="center" text="" /> 
+
+				</font>
+			</row>
+			
+			<row>
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="20%" align="center" text="" /> 
+					<textbox width="70%" align="right" text="{customer_cp} {customer_town} {customer_province} " >
+						<var name="{customer_cp}" optional="yes" />
+						<var name="{customer_town}" optional="yes" />
+						<var name="{customer_province}" optional="yes" />
+					</textbox>
+
+					<textbox width="10%" align="center" text="" /> 
+
+				</font>
+			</row>
+			
+			
+
+			<row>		
+<!-- insertamos aqui los datos del documento -->
+				<font fontsize="8" fonttype="Helvetica" fontstyle="bold">
+					
+					<textblock width="20%" align="left" text="Número: {number}" bordercolor="Black" >						
+						<var name="{number}" optional="yes"/>
+					</textblock>
+				</font>
+
+				<font fontsize="8" fonttype="Helvetica" >
+
+					<textblock width="20%" align="left" text="Fecha: {creation_date}" backgroundcolor="gray" >		 				
+						<var name="{creation_date}" formatter="datetime" formatterparameters="formatstring=dd-MM-yyyy" />
+					</textblock>
+				</font>
+<!-- end datos -->			
+				<line x1="280" x2="540"  linethickness="0.1" /> 	
+			</row>
+
+
+<!-- fin cabecera cliente e info documento --> 
+
+<!-- información del documento -->
+<!-- desactivado
+			<row>
+				<font fontsize="8" fonttype="Courier" fontstyle="bold">
+					
+					<textblock width="20%" align="left" text="Número: {number}"  >						
+						<var name="{number}" optional="yes"/>
+					</textblock>
+				</font>
+				<font fontsize="8" fonttype="Courier" >
+
+					<textblock width="20%" align="left" text="Fecha: {creation_date}" >		 				
+						<var name="{creation_date}" formatter="datetime" formatterparameters="formatstring=dd-MM-yyyy" />
+					</textblock>
+
+					<textbox width="60%" align="center" text="" />
+
+					<pagenumber width="15%" text="Pag. {__PAGE__}/{__TOTALPAGE__}" align="Right">
+						<var name="{__PAGE__}" />
+						<var name="{__TOTALPAGE__}" />
+					</pagenumber>
+
+				</font>
+			</row>
+-->
+<!-- fin información documento -->
+
+<!-- datos comunes del documento, inicio y en cabecera sólo -->
+			<row>
+
+				<font fontsize="10" fonttype="Helvetica">
+					<textbox width="100%" align="right" text="" />
+				</font>
+			</row>
+
+			<row>					
+					<line width="100%"  linethickness="0.1" /> 	
+			</row>
+
+			<row>
+				<font fontsize="8" fonttype="Helvetica">
+					<textblock width="100%" align="left" text="Concepto: {concept}"  height="25" backgroundcolor="#C0C0C0"> 
+						<var name="{concept}" optional="yes" formatter="text"/>
+					</textblock>
+				</font>
+			</row>
+
+			<row>					
+					<line width="100%"  linethickness="0.1" /> 	
+			</row>
+
+<!-- fin datos comunes -->
+		</font>
+		<!-- distancia a la tabla -->
+		<row><font fontsize="10"><textbox width="100%" /> </font></row>
+	</header>
+
+
+
+<!-- datos del cuerpo del documento, se imprime despues de la tabla -->
+<!--
+   {}
+-->
+	<body>
+		<row>
+			
+			<line x1="-1" x2="-1" width="100%" linethickness="0.1" height="20"/>
+		</row>
+
+		<row>
+			<font fontsize="4" fonttype="Helvetica">
+				<textbox width="1%" text=" " align="right"/>
+			</font>	
+		</row>
+		<row>
+
+			<font fontsize="8" fonttype="Helvetica">
+				<textbox width="16%" text="Total Líneas" align="right"/>
+
+				<textbox width="7%" text="%" align="right"/>
+				<textbox width="11%" text="Descuento" align="right"/>
+
+				<textbox width="16%" text="Base Imponible" align="right"/>
+
+				<textbox width="7%" text="%" align="right"/>
+				<textbox width="11%" text="I.V.A." align="right"/>
+
+				<font fontsize="8" fonttype="Helvetica" fontcolor="#C0C0C0">		
+					<textbox width="7%" text="%" align="right"/>
+					<textbox width="11%" text="I.R.P.F." align="right"/>
+				</font>
+				<textbox width="14%" text="Suplidos" align="right"/>
+
+			</font>
+			
+		</row>
+		<row>
+			<font fontsize="8" fonttype="Helvetica">
+				
+				<textbox width="16%" text="{total_lines_amount}" align="right"><var name= "{total_lines_amount}" formatter="number" formatterparameters="formatstring=C;defaultvalue=0.0" optional="yes" /></textbox>
+				
+				<textbox width="7%" text="{discount_value}" align="right"><var name= "{discount_value}" formatter="number" formatterparameters="formatstring=F2" optional="no" /></textbox>
+				<textbox width="11%" text="{discount_amount}" align="right"><var name= "{discount_amount}" formatter="number" formatterparameters="formatstring=C;defaultvalue=0.0" optional="yes" /></textbox>
+
+				<textbox width="16%" text="{taxable_amount}" align="right"><var name= "{taxable_amount}" formatter="number" formatterparameters="formatstring=C;defaultvalue=0.0" optional="yes" /></textbox>
+
+				<textbox width="7%" text="{vat_value}" align="right"><var name= "{vat_value}" formatter="number" formatterparameters="formatstring=F2" optional="no" /></textbox>		
+				<textbox width="11%" text="{vat_amount}" align="right"><var name="{vat_amount}" formatter="number" formatterparameters="formatstring=C;defaultvalue=0.0" optional="yes" /></textbox>
+
+				<textbox width="7%" text="" align="right"></textbox>				
+				<textbox width="11%" text="" align="right"></textbox>
+
+				<textbox width="14%" text="{supplied_amount}" align="right"><var name="{supplied_amount}" formatter="number" formatterparameters="formatstring=C;defaultvalue=0.0" optional="yes" /></textbox>
+
+			</font>
+			
+		</row>
+
+		<row>
+		
+			<line x1="-1" x2="-1" width="100%" linethickness="0.1" />
+			
+		</row>
+
+		<row>
+			<textbox width="100%" text=" " align="right"/>
+		</row>
+		
+		
+		<row>
+			<line x1="-1" x2="-1" width="100%" linethickness="0.1" />
+		</row>
+
+		
+	</body>
+
+
+
+
+
+
+<!-- datos del pie del documento -->
+
+	<footer y="70" absolute="yes">
+		<!--
+			y=optional, footer will start draw on y position
+		-->
+		<row>
+			<line x1="-1" x2="-1" width="100%" linethickness="0.1" />
+		</row>
+		<row>
+				<font fontsize="8" fonttype="Helvetica">
+					
+					<textbox width="50%" align="left" text="{number}"  >						
+						<var name="{number}" optional="yes"/>
+					</textbox>
+							
+					<pagenumber width="50%" text="Página {__PAGE__} de {__TOTALPAGE__}" align="right">
+						<var name="{__PAGE__}" optional="yes" />
+						<var name="{__TOTALPAGE__}" optional="yes"/>
+					</pagenumber>
+				</font>
+		</row>
+					
+					
+<row>
+<font fontsize="6" fonttype="Helvetica"><textblock width="100%" height="30" align="center" text="ADVERTENCIA: En el presente presupuesto no se contemplan los derechos arancelarios que pudieran devengarse por actuaciones profesionales todavía no previstas y que pudieran surgir a lo largo del proceso. Asímismo, en el presente presupuesto no se contemplan los honorarios que correspondan al Procurador  por los demás trabajos y gestiones que practique en función de lo dispuesto en los artículos 1709 y 1544 del CC, y demás normas de aplicación. " /></font></row>
+
+		
+
+	</footer>
+<!-- fin del pie de página -->
+
+
+
+<!-- lineas en tabla -->
+			
+
+<table tablewidth="400" cellperrow="2" cellwidth="8,1" width="100%">
+	<tablehead>
+		<tablerow>
+			
+				<tablecell border="Top, Bottom, Left, Right"  >
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+					<font fontsize="8" fonttype="Helvetica" fontstyle="bold">
+						<textbox text="Descripción" />	
+					</font>
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+				</tablecell>
+
+				<tablecell border="Top, Bottom, Right">
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+					<font fontsize="8" fonttype="Helvetica" fontstyle="bold">																		<textbox text="Importe" />				
+					</font>			
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+				</tablecell>
+		</tablerow>
+		<!-- separación con los datos -->
+		<tablerow>
+			
+				<tablecell>
+					<font fontsize="8" fonttype="Helvetica">
+						<textbox width="100%" />				
+					</font>
+
+				</tablecell>
+
+				<tablecell>
+					<font fontsize="8" fonttype="Helvetica">
+						<textbox width="100%" />				
+					</font>
+
+				</tablecell>
+				
+		</tablerow>
+
+	</tablehead>
+	<tableloop>
+		<tablerow>
+			<font fontsize="8" fonttype="Helvetica">
+				<tablecell border="Bottom">
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+					<textbox width="100%" align="left" text="{description}" >						
+						<var name="{description}" />
+					</textbox>
+					<font fontsize="8" fonttype="Helvetica" fontstyle="italic">
+						<textbox width="100%" align="left" text="{notes}" varcontrol="yes">
+							<var name="{notes}"  formatter="text" formatterparameters="defaultvalue=No.;formatstring=Observaciones: {0}" />
+						</textbox>
+					</font>>
+				</tablecell>
+				<tablecell border="Bottom">
+					<font fontsize="4" fonttype="Helvetica" fontstyle="regular"><textbox width="100%" text=" " /></font>
+					<custom classname="TestApp.XMLElements.CustomTextBox"  text="{line_amount}" align="right" varcontrol="no">
+					   <var name="{line_amount}" formatter="number" formatterparameters="formatstring=C" />
+					   <var name="{is_free_item}" formatter="boolean" formatterparameters="defaultvalue=false" />
+					</custom>
+				</tablecell>
+			</font>
+		</tablerow>
+	</tableloop>
+	
+	<tablefoot>
+		<!-- por desgracia solo se puede procesar con la misma configuración de tabla. -->
+	</tablefoot>
+
+
+</table>
+
+
+</pagedef>

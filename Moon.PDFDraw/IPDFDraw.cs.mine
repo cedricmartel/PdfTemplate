@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using Moon.PDFTemplate;
+
+namespace Moon.PDFDraw
+{
+
+	/// <summary>
+	/// Document groups for filter operations.
+	/// </summary>
+	public enum DocumentGroup {Header, Body, Footer, Table, Loop};
+
+	public interface IPDFDraw
+    {
+       
+		
+		void DrawString(string txt, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        void DrawString(string txt, float x, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        void DrawString(string txt, float x, float y, float width, XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+        
+        void DrawVerticalLine(float x_start, float x_end, XmlAttributeCollection lineAttrs);
+        void DrawBlockString(string txt, float x, float width,XmlAttributeCollection fontAttrs, XmlAttributeCollection textAttrs);
+
+        
+        /// <summary>
+        /// draw at x and CurrentY
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="imageAttrs"></param>
+        void DrawImage(float x, XmlAttributeCollection imageAttrs);
+        /// <summary>
+        /// draw at absolute position x, y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="imageAttrs"></param>
+        void DrawImage(float x, float y, XmlAttributeCollection imageAttrs);
+        void DrawImage(float x, string src, XmlAttributeCollection imageAttrs);
+
+        
+        void NextPage();
+        void NextRow( DocumentGroup group);
+        void NextRow(float height, DocumentGroup group);
+        
+        float CurrentY();
+        bool isNoMoreY(float height, DocumentGroup group);
+        void SetY(float y);
+        
+        /// <summary>
+        /// Allow set background image.
+        /// </summary>
+        /// <param name="backgroundImage"></param>
+        void SetBackgroundImage( BackgroundImageDefinition backgroundImage );
+    }
+}

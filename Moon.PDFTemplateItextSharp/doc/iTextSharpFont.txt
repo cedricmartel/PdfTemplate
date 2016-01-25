@@ -1,0 +1,18 @@
+Font support chinese
+
+fontname/fontfile	encoding			familyname
+SimSun.ttf			Identity-H			SimSun
+simfang.ttf			Identity-H			FangSong
+
+
+iTextSharp.text.pdf.BaseFont.AddToResourceSearch("iTextAsian.dll");
+Simplified chinese but traditional also will display
+STSong-Light		UniGB-UCS2-H
+					UniGB-UTF16-H
+STSongStd-Light		UniGB-UCS2-H
+					UniGB-UTF16-H
+
+Traditional chinese (only traditional chinese word will be display)
+MHei-Medium			UniCNS-UTF16-H, UniCNS-UCS2-H
+MSung-Light
+MSungStd-Light

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pagedef pagesize="A4" margin_left="20" margin_right="20" margin_top="20" margin_bottom="20" pageorientation="portrait">
+	<!-- 
+		pageorientation="lanscape,portrait"
+		pagesize="A0-A5,RA0-RA5,B0-B5,letter,statement"
+						width		height
+			letter		-> 8.5' x 11' 
+			statement	-> 5.5' x 8.5'
+	-->
+	<header>
+		<font fontsize="10" fonttype="Courier">
+		<!--
+			fontsize="10....."
+			fonttype="Courier,Verdana,Arial....."
+			//fontstyle="Regular,Bold,Italic,BoldItalic,Underline,Strikeout" 没反应
+		-->
+			<row>
+				<font fontsize="8" fonttype="Courier" fontstyle="bold" fontcolor="red">
+					<textbox width="80%" align="center" text="This is fix text!" />
+					<image src="logo.png" width="100" height="20" />
+				</font>
+			</row>
+			<row>
+				<textbox width="20%" text="Company Name 公司"></textbox>
+				<font fontsize="8" fonttype="Times Roman">
+					<textbox width="20%" text="Company Name 公司{company_name}"><var name="{company_name}" /></textbox>
+				</font>
+				<textbox width="10%" text="Date" />
+				<textbox width="15%" text="{date}"><var name="{date}" /></textbox>
+				<textbox width="20%" text="" />
+				<pagenumber width="15%" text="Page {__PAGE__}/{__TOTALPAGE__}" align="Right">
+					<var name="{__PAGE__}" />
+					<var name="{__TOTALPAGE__}" />
+				</pagenumber>
+			</row>
+			<row><textbox width="100%" /></row><!-- empty row -->
+			<row><line x1="-1" x2="-1" width="100%" linethickness="0.5" /></row>
+		
+			<row>
+				<font fontsize="10" fonttype="Courier">
+					<!-- <line x1="-1" x2="-1" width="100%" linethickness="0.5" /> -->
+					<line x1="-1" x2="-1" width="20%" linethickness="0.5" />
+					<textbox width="20%" align="center" text="No" />
+					
+					<textbox width="20%" align="center" text="Name" />
+					<textbox width="20%" align="center" text="BB" />
+					<line x1="-1" x2="-1" width="20%" linethickness="0.5" />
+					<textbox width="20%" align="center" text="CC" />
+					
+					<font fontsize="10" fonttype="Courier" fontstyle="bold">
+						<textbox width="20%" align="center" text="DD" />
+					</font>
+				</font>
+			</row>
+		</font>
+	</header>
+<table tablewidth="400" cellperrow="3" cellwidth="2, 1, 2" width="80%">
+	<tablehead>
+		<tablerow>
+			<font fontsize="8" fonttype="Courier">
+				<tablecell border="Top, Bottom, Left, Right" borderwidthbottom="0.8">
+					<textbox text="{company_name}">
+						<var name="{company_name}" />
+					</textbox>
+				</tablecell>
+				<tablecell border="Top, Bottom, Left, Right" borderwidthbottom="0.8">
+					<font fontsize="10" fonttype="Courier">
+						<textbox text="Row1 Col2"></textbox>
+					</font>
+				</tablecell>
+				<tablecell border="Top, Bottom, Left, Right" borderwidthbottom="0.8">
+					<textbox text="row1 Col3" align="right">
+					</textbox>
+					<image src="logo.png" width="100" height="20" align="right" />
+				</tablecell>
+			</font>
+		</tablerow>
+		<tablerow>
+			<font fontsize="8" fonttype="Courier">
+				<tablecell border="Top, Bottom, Left, Right" horizontalalign="Right">
+					<textbox text="head 头文字地 row2 col1" align="right">
+						<var name="{company_name}" />
+					</textbox>
+				</tablecell>
+				<tablecell border="Top, Bottom, Left, Right">
+					<font fontsize="8" fonttype="Courier">
+						<textbox text="head Row2 Col2 head Row2 Col2 head Row2 Col2"></textbox>
+					</font>
+				</tablecell>
+				<tablecell border="Top, Bottom, Left, Right">
+					<textbox text="head row2 Col3">
+					</textbox>
+				</tablecell>
+			</font>
+		</tablerow>
+	</tablehead>
+	<tableloop>
+		<tablerow>
+			<font fontsize="8" fonttype="Courier">
+				<tablecell border="Top, Bottom">
+					<textbox width="20%" align="left" text="NO: {no}{another}">
+						<var name="{no}" />
+						<var name="{another}" />
+					</textbox>
+				</tablecell>
+				<tablecell border="Top, Bottom">
+					<font fontsize="8" fonttype="Courier">
+						<textbox text="abc"></textbox>
+					</font>
+				</tablecell>
+				<tablecell border="Top, Bottom">
+					<textbox text="Row2 Col3">
+					</textbox>
+				</tablecell>
+			</font>
+		</tablerow>
+	</tableloop>
+</table>
+
+	<loop>
+		<font fontsize="8" fonttype="Courier">
+		<row>
+			<font fontsize="8" fonttype="Helvetica" fontcolor="#1929DB">
+				<textbox width="20%" align="left" text="NO: {no}{another}">
+					<var name="{no}" />
+					<var name="{another}" />
+				</textbox>
+			</font>
+			<textbox width="20%" align="left" text="{name}"><var name="{name}" /></textbox>
+			<textbox width="20%" align="left" text="{bb}"><var name="{bb}" /></textbox>
+			<textbox width="20%" align="right" text="{cc}"><var name="{cc}" /></textbox>
+			<textbox width="20%" text="{dd}"><var name="{dd}" /></textbox>
+		</row>
+		</font>
+	</loop>
+
+	<body>
+		<font fontsize="10" fonttype="Courier">
+			<row>
+				<textbox width="20%" text="text before textblock"></textbox>
+				<textblock height="40" width="50%" text="Remark: {remark}">
+					<var name="{remark}" />
+				</textblock>
+				<textbox width="20%" text="text after textblock"></textbox>
+			</row>
+		</font>		
+	</body>
+
+	<footer y="300">
+		<!--
+			y=optional, footer will start draw on y position
+		-->
+		<row>
+			<line x1="-1" x2="-1" width="100%" linethickness="0.5" />
+		</row>
+		<row>
+			<textbox width="30%" text="this is footer text" />
+		</row>
+	</footer>
+</pagedef>

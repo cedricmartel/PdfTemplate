@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E9960733-AB68-4D4C-A558-38D863FAFA2D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Moon.PDFTemplateItextSharp</RootNamespace>
+    <AssemblyName>Moon.PDFTemplateItextSharp</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <TargetFrameworkProfile />
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <DocumentationFile>bin\Release\Moon.PDFTemplateItextSharp.xml</DocumentationFile>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
+    <AssemblyOriginatorKeyFile>..\FirmaEnsamblado_melloraSinxelas.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>PdbOnly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="itextsharp, Version=5.3.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\external.references\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PDFTemplateItextSharp.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Moon.PDFDrawItextSharp\Moon.PDFDrawItextSharp.csproj">
+      <Project>{9D1AFD84-6A0D-4006-9A01-7EC16E6E4D0A}</Project>
+      <Name>Moon.PDFDrawItextSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moon.PDFDraw\Moon.PDFDraw.csproj">
+      <Project>{9C2F6000-D5DC-47B8-9930-296876B3C6E3}</Project>
+      <Name>Moon.PDFDraw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moon.PDFTemplate\Moon.PDFTemplate.csproj">
+      <Project>{3A3EF317-6723-454D-BCEB-A0814C61F74F}</Project>
+      <Name>Moon.PDFTemplate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="doc\example.xml.txt" />
+    <Content Include="doc\iTextSharpFont.txt" />
+    <Content Include="doc\PDFTemplate.xml.txt">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="changes.log">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="doc\example_2.xml.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <StartAction>Project</StartAction>
+    <PostBuildEvent>del/F /Q "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\*.dll"
+copy /y "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\PDFTemplateItextSharp\Moon.PDFTemplateItextSharp\bin\Debug\*.dll" "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\"
+copy /y "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\PDFTemplateItextSharp\Moon.PDFTemplateItextSharp\bin\Debug\*.pdb" "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\"
+</PostBuildEvent>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PostBuildEvent>del/F /Q "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\*.dll"
+copy /y "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\PDFTemplateItextSharp\Moon.PDFTemplateItextSharp\bin\Debug\*.dll" "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\"
+copy /y "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\PDFTemplateItextSharp\Moon.PDFTemplateItextSharp\bin\Debug\*.pdb" "C:\Users\jaime.lopez\Desarrollo\SharpDevelop Projects\ProcuGEST_VS2010\external_references\PDFTemplates\"
+</PostBuildEvent>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

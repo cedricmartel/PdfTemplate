@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{27C9AC2C-5358-48FE-8351-C625E25F5038}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TestApp</RootNamespace>
+    <AssemblyName>TestApp</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile />
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <StartAction>Project</StartAction>
+    <StartArguments>-t ./template_v2.xml -d -pdf "C:\Program Files (x86)\Adobe\Reader 10.0\Reader\AcroRd32.exe"</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <StartAction>Project</StartAction>
+    <StartArguments>-t template_v3.xml -d -pdf "C:\Program Files (x86)\Adobe\Reader 10.0\Reader\AcroRd32.exe"</StartArguments>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\FormDeleteValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\FormDeleteValue.Designer.cs">
+      <DependentUpon>FormDeleteValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FormAddGroupValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\FormAddGroupValues.Designer.cs">
+      <DependentUpon>FormAddGroupValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FormAddValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\FormAddValue.Designer.cs">
+      <DependentUpon>FormAddValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FormDocumentData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\FormDocumentData.Designer.cs">
+      <DependentUpon>FormDocumentData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FormLoopData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\FormLoopData.Designer.cs">
+      <DependentUpon>FormLoopData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\HashUtils.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XMLElements\CustomTextBox.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="template_v3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="balanza.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="template_v2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\FormDeleteValue.resx">
+      <DependentUpon>FormDeleteValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FormAddGroupValues.resx">
+      <DependentUpon>FormAddGroupValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FormAddValue.resx">
+      <DependentUpon>FormAddValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FormDocumentData.resx">
+      <DependentUpon>FormDocumentData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Moon.PDFDraw\Moon.PDFDraw.csproj">
+      <Project>{9C2F6000-D5DC-47B8-9930-296876B3C6E3}</Project>
+      <Name>Moon.PDFDraw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moon.PDFTemplateItextSharp\Moon.PDFTemplateItextSharp.csproj">
+      <Project>{E9960733-AB68-4D4C-A558-38D863FAFA2D}</Project>
+      <Name>Moon.PDFTemplateItextSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moon.PDFTemplate\Moon.PDFTemplate.csproj">
+      <Project>{3A3EF317-6723-454D-BCEB-A0814C61F74F}</Project>
+      <Name>Moon.PDFTemplate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>
