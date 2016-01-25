@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TableGroup.cs" />
     <Compile Include="CustomElements\DefaultCustomElement.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="FooterGroup.cs" />
@@ -98,12 +99,7 @@
       <Name>Moon.PDFDraw</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CustomElements" />
-    <Folder Include="Formatters" />
-    <Folder Include="Utils" />
-    <Folder Include="XMAtributes" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

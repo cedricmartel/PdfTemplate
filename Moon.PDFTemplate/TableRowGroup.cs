@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Moon.PDFTemplate
 {
@@ -12,7 +9,7 @@ namespace Moon.PDFTemplate
 	/// </summary>
 	public class TableRowGroup
 	{
-		private List<TableRow> tableRows = new List<TableRow>();
+		private readonly List<TableRow> tableRows = new List<TableRow>();
 		
 		/// <summary>
 		/// List of table rows.

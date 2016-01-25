@@ -1,0 +1,51 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="fr.cedricmartel.SampleItextSharp.Master" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ITextSharp Template</title>
+
+
+    <%--jquery--%>
+    <script src="/Scripts/jquery-1.9.1.min.js"></script>
+
+    <%--bootstrap--%>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="/Scripts/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            padding-top: 3em;
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <%--menu--%>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/Default.aspx">Tests ITextSharp</a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/SimpleTest/Default.aspx">Simple generation</a></li>
+                    <li><a href="/MultipleTables/Default.aspx">Multiple tables</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <form runat="server">
+        <div class="container">
+            <asp:ContentPlaceHolder ID="PageContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

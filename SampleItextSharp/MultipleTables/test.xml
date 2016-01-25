@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pagedef pagesize="A4" margin_left="10" margin_right="10" margin_top="10" margin_bottom="10" pageorientation="portrait">
+
+  <header>
+    <row>
+      <font fontstyle="BoldItalic" fontsize="11">
+        <image src="{logoUrl}" align="center" height="80" width="100" >
+          <var name="{logoUrl}" />
+        </image>
+        <textbox text="" width="5%"/>
+        <textblock width="70%" height="50" align="left" text="{titreDocument}" >
+          <var name="{titreDocument}" />
+        </textblock>
+      </font>
+    </row>
+
+    <!--séparateur-->
+    <row>
+      <font fontsize="16">
+        <textbox width="100%" />
+      </font>
+    </row>
+  </header>
+
+  <body>
+    <row>
+      <textblock width="100%" align="left" text="Some data before the table" />
+    </row>
+    <row>
+      <textblock width="100%" align="left" text="another row full of text ..." />
+    </row>
+    
+    <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{FirstTable}">
+      <tablehead>
+        <tablerow>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Date"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Centre"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Frais"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Nombre"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Base"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Montant" align="right"></textbox>
+          </tablecell>
+        </tablerow>
+      </tablehead>
+
+      <tableloop>
+        <tablerow>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Date}">
+              <var name="{Date}" formatter="datetime" formatterparameters="formatstring=dd/MM/yyyy" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Centre}">
+              <var name="{Centre}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Frais}">
+              <var name="{Frais}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Nombre}">
+              <var name="{Nombre}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Base}">
+              <var name="{Base}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Montant}" align="right">
+              <var name= "{Montant}" formatter="number" formatterparameters="formatstring=0.00€" />
+            </textbox>
+          </tablecell>
+        </tablerow>
+      </tableloop>
+
+      <tablefoot>
+        <tablerow>
+          <tablecell>
+            <textbox text=" " />
+          </tablecell>
+          <tablecell />
+          <tablecell />
+          <tablecell />
+          <tablecell />
+          <tablecell />
+        </tablerow>
+
+        <tablerow>
+          <tablecell />
+          <tablecell />
+          <tablecell />
+          <tablecell />
+
+          <tablecell border="Top, Bottom, Left, Right" backgroundcolor="#9BCFF9">
+            <textbox text="Total">
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom, Left, Right">
+            <textbox text="{Total}" align="right">
+              <var name="{Total}" formatter="number" formatterparameters="formatstring=0.00€" />
+            </textbox>
+          </tablecell>
+
+        </tablerow>
+      </tablefoot>
+    </table>
+    
+    <row>
+      <textblock width="100%" align="left" text="Text between the two tables " />
+    </row>
+
+    <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{SecondTable}">
+      <tablehead>
+        <tablerow>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Date(2)"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Centre(2)"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Frais(2)"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Nombre(2)"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Base(2)"></textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
+            <textbox text="Montant(2)" align="right"></textbox>
+          </tablecell>
+        </tablerow>
+      </tablehead>
+
+      <tableloop>
+        <tablerow>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Date}">
+              <var name="{Date}" formatter="datetime" formatterparameters="formatstring=dd/MM/yyyy" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Centre}">
+              <var name="{Centre}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Frais}">
+              <var name="{Frais}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Nombre}">
+              <var name="{Nombre}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Base}">
+              <var name="{Base}" />
+            </textbox>
+          </tablecell>
+          <tablecell border="Top, Bottom">
+            <textbox text="{Montant}" align="right">
+              <var name= "{Montant}" formatter="number" formatterparameters="formatstring=0.00€" />
+            </textbox>
+          </tablecell>
+        </tablerow>
+      </tableloop>
+    </table>
+    
+    <row>
+      <textblock width="100%" align="left" text="text after the last table" />
+    </row>
+  </body>
+  
+  <footer y="50" absolute="yes">
+
+    <!--Une barre de séparation avec padding autour-->
+    <row>
+      <textbox text=""/>
+    </row>
+    <row>
+      <line x1="-1" x2="-1" width="100%" linethickness="0.1" />
+    </row>
+    <row>
+      <textbox text=""/>
+    </row>
+
+    <!--texte du footer-->
+    <row>
+      <font fontsize="8" fonttype="Helvetica">
+
+        <textblock width="50%" align="left" text="{titreDocument}" >
+          <var name="{titreDocument}" />
+        </textblock>
+
+        <pagenumber width="50%" text="Page {__PAGE__} sur {__TOTALPAGE__}" align="right">
+          <var name="{__PAGE__}" optional="yes" />
+          <var name="{__TOTALPAGE__}" optional="yes"/>
+        </pagenumber>
+      </font>
+    </row>
+  </footer>
+
+
+
+
+</pagedef>
