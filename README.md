@@ -16,6 +16,6 @@ Working copy for following patches :
  - OK - add a sample asp.net app
  - OK - support for multiple tables inside body tag
  - OK - table won't show if associated data is null
- - add condition on body.row item to hide current item if associated data is null
+ - OK - add condition on body items to hide item if associated data is null
  - table with multiple lines cells
  

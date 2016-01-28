@@ -24,13 +24,14 @@
 
   <body>
     <row>
-      <textblock width="100%" align="left" text="Some data before the table" />
+      <textblock width="100%" align="left" text="This is the body section" />
     </row>
-    <row>
-      <textblock width="100%" align="left" text="another row full of text ..." />
+
+    <row condition="{Condition}">
+      <textblock width="100%" align="left" text="This row and following table will output only if {Condition} is true" />
     </row>
     
-    <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{FirstTable}">
+    <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{FirstTable}" condition="{Condition}">
       <tablehead>
         <tablerow>
           <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
@@ -120,74 +121,7 @@
         </tablerow>
       </tablefoot>
     </table>
-    
-    <row>
-      <textblock width="100%" align="left" text="Text between the two tables " />
-    </row>
 
-    <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{SecondTable}">
-      <tablehead>
-        <tablerow>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Date(2)"></textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Centre(2)"></textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Frais(2)"></textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Nombre(2)"></textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Base(2)"></textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom" backgroundcolor="#9BCFF9">
-            <textbox text="Montant(2)" align="right"></textbox>
-          </tablecell>
-        </tablerow>
-      </tablehead>
-
-      <tableloop>
-        <tablerow>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Date}">
-              <var name="{Date}" formatter="datetime" formatterparameters="formatstring=dd/MM/yyyy" />
-            </textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Centre}">
-              <var name="{Centre}" />
-            </textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Frais}">
-              <var name="{Frais}" />
-            </textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Nombre}">
-              <var name="{Nombre}" />
-            </textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Base}">
-              <var name="{Base}" />
-            </textbox>
-          </tablecell>
-          <tablecell border="Top, Bottom">
-            <textbox text="{Montant}" align="right">
-              <var name= "{Montant}" formatter="number" formatterparameters="formatstring=0.00€" />
-            </textbox>
-          </tablecell>
-        </tablerow>
-      </tableloop>
-    </table>
-    
-    <row>
-      <textblock width="100%" align="left" text="text after the last table" />
-    </row>
   </body>
 
 

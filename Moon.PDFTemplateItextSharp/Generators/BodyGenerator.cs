@@ -46,6 +46,9 @@ namespace Moon.PDFTemplateItextSharp.Generators
 
             foreach (XmlNode itemNode in bodyItems)
             {
+                if (!IsNodeVisible(itemNode, data))
+                    continue;
+
                 if (itemNode.Name == "row")
                 {
                     RowGroup rowGroup = new RowGroup
@@ -70,6 +73,31 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     tableGenerator.DrawTable((TableData) (tableParameters), drawer);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// row and table items in body can have attribute "condition" which can be set to a variable name
+        /// lets say "condition"="{some_key"}"
+        /// if bodyData["{some_key}"] == false, it won't be printed
+        /// </summary>
+        private bool IsNodeVisible(XmlNode node, Hashtable bodyData)
+        {
+            if (node.Attributes == null)
+                return true;
+            var conditionAttribute = node.Attributes["condition"];
+            if (conditionAttribute == null)
+                return true;
+            var conditionKey = node.Attributes["condition"].Value;
+            if (string.IsNullOrEmpty(conditionKey))
+                return true;
+
+            if (!bodyData.ContainsKey(conditionKey))
+                return true;
+            var data = bodyData[conditionKey];
+            if (data == null)
+                return false;
+            return (data is bool && (bool)data);
         }
 
     }

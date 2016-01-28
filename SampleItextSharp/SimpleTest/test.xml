@@ -124,10 +124,11 @@
       <textblock width="100%" align="left" text="plein de données ..." />
     </row>
   </body>
-  
+
+
   <footer y="50" absolute="yes">
 
-    <!--Une barre de séparation avec padding autour-->
+    <!--separating bar with padding-->
     <row>
       <textbox text=""/>
     </row>
@@ -138,7 +139,7 @@
       <textbox text=""/>
     </row>
 
-    <!--texte du footer-->
+    <!--footer text-->
     <row>
       <font fontsize="8" fonttype="Helvetica">
 
@@ -146,15 +147,12 @@
           <var name="{titreDocument}" />
         </textblock>
 
-        <pagenumber width="50%" text="Page {__PAGE__} sur {__TOTALPAGE__}" align="right">
+        <pagenumber width="50%" text="Page {__PAGE__} of {__TOTALPAGE__}" align="right">
           <var name="{__PAGE__}" optional="yes" />
           <var name="{__TOTALPAGE__}" optional="yes"/>
         </pagenumber>
       </font>
     </row>
   </footer>
-
-
-
 
 </pagedef>

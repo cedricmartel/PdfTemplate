@@ -36,6 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/SimpleTest/Default.aspx">Simple generation</a></li>
                     <li><a href="/MultipleTables/Default.aspx">Multiple tables</a></li>
+                    <li><a href="/ConditionalDisplay/Default.aspx">Conditional display</a></li>
                 </ul>
             </div>
         </div>

@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TableGroup.cs" />
     <Compile Include="CustomElements\DefaultCustomElement.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="FooterGroup.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="RowGroup.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableCell.cs" />
+    <Compile Include="TableGroup.cs" />
     <Compile Include="TableRow.cs" />
     <Compile Include="TableRowGroup.cs" />
     <Compile Include="TextBlock.cs" />
