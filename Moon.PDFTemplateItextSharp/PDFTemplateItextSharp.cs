@@ -39,7 +39,7 @@ namespace Moon.PDFTemplateItextSharp
         /// <param name="xmlFile"></param>
         public PDFTemplateItextSharp(string xmlFile) : base(xmlFile)
         {
-            init();
+            Init();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Moon.PDFTemplateItextSharp
         /// <param name="xmldoc"></param>
         public PDFTemplateItextSharp(XmlDocument xmldoc) : base(xmldoc)
         {
-            init();
+            Init();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Moon.PDFTemplateItextSharp
         public PDFTemplateItextSharp(string xmlFile, string fontpath) : base(xmlFile)
         {
             this.fontpath = fontpath;
-            init();
+            Init();
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace Moon.PDFTemplateItextSharp
         public PDFTemplateItextSharp(XmlDocument xmldoc, string fontpath) : base(xmldoc)
         {
             this.fontpath = fontpath;
-            init();
+            Init();
         }
 
         #endregion
 
 
 
-        private void init()
+        private void Init()
         {
 
             //20130604 :: mellorasinxelas

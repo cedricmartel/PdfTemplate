@@ -34,7 +34,7 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
                 var donnees1 = new Hashtable
                 {
                     {"{Date}", debut.AddDays(i)},
-                    {"{Centre}", "Centre 1"},
+                    {"{Centre}", "Centre 1\nMore information"},
                     {"{Frais}", 5},
                     {"{Nombre}", "200,00"},
                     {"{Base}", "5,00"},

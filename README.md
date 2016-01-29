@@ -17,5 +17,5 @@ Working copy for following patches :
  - OK - support for multiple tables inside body tag
  - OK - table won't show if associated data is null
  - OK - add condition on body items to hide item if associated data is null
- - table with multiple lines cells
+
  
