@@ -207,25 +207,33 @@ namespace Moon.PDFTemplateItextSharp
         }
         
         /// <summary>
+        /// This object is used to exclusively lock usage fvor Close method bellow, to prevent concurrency errors on loading fonts 
+        /// </summary>
+        public static Object ClosingFileLocker = new object();
+
+        /// <summary>
         /// Close the underlaying PDFDraw and return the closed memory stream
         /// </summary>
         /// <returns></returns>
         public MemoryStream Close()
         {
-            PDFDrawItextSharp.PDFDrawItextSharp p = (PDFDrawItextSharp.PDFDrawItextSharp)PdfDrawer;
-            Font font = null;
-            if (PageNumberBox != null)
+            lock (ClosingFileLocker)
             {
-                font = p.CreateFontFromAttribute(PageNumberBox.FontAttributes);
-            }
-            p.Close();
-            Debug();
+                PDFDrawItextSharp.PDFDrawItextSharp p = (PDFDrawItextSharp.PDFDrawItextSharp) PdfDrawer;
+                Font font = null;
+                if (PageNumberBox != null)
+                {
+                    font = p.CreateFontFromAttribute(PageNumberBox.FontAttributes);
+                }
+                p.Close();
+                Debug();
 
-            if (PageNumberBox != null)
-            {
-                DrawPageNumber(font);
+                if (PageNumberBox != null)
+                {
+                    DrawPageNumber(font);
+                }
+                return stream;
             }
-            return stream;
         }
 
 
