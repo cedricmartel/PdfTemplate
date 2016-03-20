@@ -50,33 +50,32 @@
 
     <tableloop>
       <tablerow>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
           <textbox text="{Date}">
             <var name="{Date}" formatter="datetime" formatterparameters="formatstring=dd/MM/yyyy" />
           </textbox>
         </tablecell>
         <tablecell border="Top, Bottom" backgroundcolor="{Background}">
-          <var name="{Background}" />
           <textbox text="{Centre}">
             <var name="{Centre}" />
           </textbox>
         </tablecell>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
           <textbox text="{Frais}">
             <var name="{Frais}" />
           </textbox>
         </tablecell>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
           <textbox text="{Nombre}">
             <var name="{Nombre}" />
           </textbox>
         </tablecell>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
           <textbox text="{Base}">
             <var name="{Base}" />
           </textbox>
         </tablecell>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
           <textbox text="{Montant}" align="right">
             <var name= "{Montant}" formatter="number" formatterparameters="formatstring=0.00€" />
           </textbox>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace fr.cedricmartel.SampleItextSharp.SimpleTest
@@ -15,8 +16,11 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
         private readonly List<Hashtable> loopTableData = new List<Hashtable>();
         private readonly Hashtable footerTableData = new Hashtable();
 
+        private Random randonGen;
+
         protected void GenerationPdf(object sender, EventArgs e)
         {
+            randonGen = new Random();
             // templates load
             var template = Server.MapPath("test.xml");
             var pdfTemplate = new Moon.PDFTemplateItextSharp.PDFTemplateItextSharp(template);
@@ -37,7 +41,7 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
                     {"{Nombre}", ""},
                     {"{Base}", ""},
                     {"{Montant}", ""}, 
-                    {"{Background}", ""}
+                    {"{Background}", RandomColor()}
                 });
             for (int i = 0; i < 200; i++)
             {
@@ -49,7 +53,7 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
                     {"{Nombre}", "200,00"},
                     {"{Base}", "5,00"},
                     {"{Montant}", i}, 
-                    {"{Background}", "#E0E7FF"}
+                    {"{Background}", RandomColor()}
                 };
                 loopTableData.Add(donnees1);
             }
@@ -71,6 +75,17 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
             }
 
             Resulat.Text = "Generated PDF: <a href='../Output/" + fileName + "'>" + fileName + "</a><br/><br/><iframe src='../Output/" + fileName + "' width='1024' height='600' />";
+        }
+
+        private string RandomColor()
+        {
+            Color randomColor =
+                Color.FromArgb(
+                (byte)randonGen.Next(255),
+                (byte)randonGen.Next(255),
+                (byte)randonGen.Next(255),
+                (byte)randonGen.Next(255));
+            return "#" + randomColor.R.ToString("X2") + randomColor.G.ToString("X2") + randomColor.B.ToString("X2");
         }
     }
 }
