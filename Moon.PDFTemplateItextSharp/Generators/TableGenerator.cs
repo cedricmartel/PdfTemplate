@@ -190,7 +190,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
             PDFDrawItextSharp.PDFDrawItextSharp pdfDraw = (PDFDrawItextSharp.PDFDrawItextSharp)pdfDrawer;
             foreach (TableCell tableCell in tableRowElement.TableCells)
             {
-                PdfPCell cell = pdfDraw.CreateTableCell(tableCell.Attributes);
+                PdfPCell cell = pdfDraw.CreateTableCell(tableCell.Attributes, data);
                 foreach (DrawElement drawElement in tableCell.DrawElements)
                 {
                     if (drawElement is TextBox)

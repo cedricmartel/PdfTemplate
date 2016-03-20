@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
-using System.Text;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
 using Moon.PDFDraw;
 using System.Xml;
 using Moon.PDFDrawItextSharp.StyleContainers;
@@ -1278,13 +1275,19 @@ namespace Moon.PDFDrawItextSharp
 
 			return cell;
 		}
-		
-		/// <summary>
+
+        /// <summary>
+        /// Creates a table cell
+        /// </summary>
+	    public iTextSharp.text.pdf.PdfPCell CreateTableCell(XmlAttributeCollection cellAttrs)
+        {
+            return CreateTableCell(cellAttrs, null);
+        }
+
+	    /// <summary>
 		/// Creates a table cell
 		/// </summary>
-		/// <param name="cellAttrs"></param>
-		/// <returns></returns>
-		public iTextSharp.text.pdf.PdfPCell CreateTableCell(XmlAttributeCollection cellAttrs)
+		public iTextSharp.text.pdf.PdfPCell CreateTableCell(XmlAttributeCollection cellAttrs, System.Collections.IDictionary data)
 		{
 			int colspan = Moon.PDFDraw.Helper.GetIntAttributeValue("colspan", cellAttrs, 0);
 			int horizontalalign = PDFDrawItextSharpHelper.Align(
@@ -1325,9 +1328,7 @@ namespace Moon.PDFDrawItextSharp
 
 			//20130610 :: Add background color
 			if( Moon.PDFDraw.Helper.GetAttributeValue(BackgroundColorAttributeConstant, cellAttrs, null) != null ){
-				cell.BackgroundColor = new iTextSharp.text.BaseColor(
-					Moon.PDFDraw.Helper.GetAttributeColor(BackgroundColorAttributeConstant, cellAttrs, "White")
-				);
+				cell.BackgroundColor = new BaseColor(Helper.GetAttributeColor(BackgroundColorAttributeConstant, cellAttrs, "White", data));
 			}
 			//---
 			

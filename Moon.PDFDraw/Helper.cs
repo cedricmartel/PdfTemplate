@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Xml;
 
 namespace Moon.PDFDraw
@@ -75,21 +76,36 @@ namespace Moon.PDFDraw
 			}
 			return r;
 		}
-		
+
+
+        /// <summary>
+        /// Gets Color value from XML attribute
+        /// </summary>
+	    public static System.Drawing.Color GetAttributeColor(string name, XmlAttributeCollection attrs, string defaultValue)
+        {
+            return GetAttributeColor(name, attrs, defaultValue, null);
+            ;
+	    }
+
 		/// <summary>
-		/// Gets Color value from XML attribute
+		/// Gets Color value from XML attribute, using vars 
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="attrs"></param>
-		/// <param name="value_default"></param>
-		/// <returns></returns>
-		public static System.Drawing.Color GetAttributeColor(string name, XmlAttributeCollection attrs, string value_default)
+        public static System.Drawing.Color GetAttributeColor(string name, XmlAttributeCollection attrs, string defaultValue, IDictionary data)
 		{
-			if (value_default == string.Empty)
-			{
-				value_default = "Black";
-			}
-			return System.Drawing.ColorTranslator.FromHtml(GetAttributeValue(name, attrs, value_default));
+            if (string.IsNullOrEmpty(defaultValue))
+                defaultValue = "Black";
+
+		    var val = GetAttributeValue(name, attrs, defaultValue);
+		    if (data != null)
+		    {
+		        var dataVal = (string)data[val];
+		        if (!string.IsNullOrEmpty(dataVal))
+		            val = dataVal;
+		        else if (val.Contains("{"))
+		            val = defaultValue;
+		    }
+
+            return System.Drawing.ColorTranslator.FromHtml(val);
 		}
 		
 		/// <summary>
@@ -101,10 +117,10 @@ namespace Moon.PDFDraw
 		{
 			float r = 0;
 			try{
-				string width_percent = GetAttributeValue("width", attrs, "0%");
-				if (width_percent.Contains("%"))
+				string widthPercent = GetAttributeValue("width", attrs, "0%");
+				if (widthPercent.Contains("%"))
 				{
-					string _txt = width_percent.Substring(0, width_percent.IndexOf("%"));
+					string _txt = widthPercent.Substring(0, widthPercent.IndexOf("%"));
 					r = (float)Convert.ToDouble(_txt);
 					r /= 100;
 				}

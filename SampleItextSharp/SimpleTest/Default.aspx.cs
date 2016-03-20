@@ -29,6 +29,16 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
 
             // data load
             DateTime debut = new DateTime(2016, 1, 1);
+            loopTableData.Add(new Hashtable
+                {
+                    {"{Date}", debut.AddDays(-1)},
+                    {"{Centre}", "des données qui prennent toute la ligne pour voir "}, 
+                    {"{Frais}", ""},
+                    {"{Nombre}", ""},
+                    {"{Base}", ""},
+                    {"{Montant}", ""}, 
+                    {"{Background}", ""}
+                });
             for (int i = 0; i < 200; i++)
             {
                 var donnees1 = new Hashtable
@@ -38,7 +48,8 @@ namespace fr.cedricmartel.SampleItextSharp.SimpleTest
                     {"{Frais}", 5},
                     {"{Nombre}", "200,00"},
                     {"{Base}", "5,00"},
-                    {"{Montant}", i}
+                    {"{Montant}", i}, 
+                    {"{Background}", "#E0E7FF"}
                 };
                 loopTableData.Add(donnees1);
             }

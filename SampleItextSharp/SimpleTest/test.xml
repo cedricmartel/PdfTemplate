@@ -55,7 +55,8 @@
             <var name="{Date}" formatter="datetime" formatterparameters="formatstring=dd/MM/yyyy" />
           </textbox>
         </tablecell>
-        <tablecell border="Top, Bottom">
+        <tablecell border="Top, Bottom" backgroundcolor="{Background}">
+          <var name="{Background}" />
           <textbox text="{Centre}">
             <var name="{Centre}" />
           </textbox>

@@ -34,8 +34,6 @@ namespace Moon.PDFTemplate
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="attrs"></param>
-		/// <param name="fontAttrs"></param>
 		public TableCell(XmlAttributeCollection attrs, XmlAttributeCollection fontAttrs)
 			: base(attrs)
 		{

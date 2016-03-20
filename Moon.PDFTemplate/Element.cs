@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml;
+using Moon.PDFTemplate.XMAtributes;
 
 namespace Moon.PDFTemplate
 {
@@ -32,5 +30,6 @@ namespace Moon.PDFTemplate
         {
             get { return attrs; }
         }
+
     }
 }
