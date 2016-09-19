@@ -19,7 +19,10 @@ namespace testPDFTemplateItextSharp
             // need to load CJK b4 create PDFTemplateItextSharp
             // itextsharp.dll 5.3.5 ok
             // itextsharp.dll 5.1.3 not ok
-            iTextSharp.text.pdf.BaseFont.AddToResourceSearch("iTextAsian.dll"); // iTextAsian.dll 2.1.0.0
+            //iTextSharp.text.pdf.BaseFont.AddToResourceSearch("iTextAsian.dll"); // iTextAsian.dll 2.1.0.0
+
+            // istextsharp.dll 5.5.9 ok
+            iTextSharp.text.io.StreamUtil.AddToResourceSearch("iTextAsian.dll"); // iTextAsian.dll 2.1.0.0
 
             Moon.PDFTemplateItextSharp.PDFTemplateItextSharp pdfTpl = 
                 new Moon.PDFTemplateItextSharp.PDFTemplateItextSharp(@"file\ar_statement.xml");
