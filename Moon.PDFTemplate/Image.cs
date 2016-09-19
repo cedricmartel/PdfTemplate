@@ -99,14 +99,8 @@ namespace Moon.PDFTemplate
             SetXandWidth(X, PDFDraw.Helper.GetFloatAttributeValue(WidthAttributeConstant, Attributes, 50) );
         }
 
-
-        /// <summary>
-        /// Sets X position and width.
-        /// 20150203 :: Changed to virtual. Set internal vars.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="width"></param>
-        public override void SetXandWidth(float x, float width)
+        
+		public override void SetXandWidth(float x, float width)
 		{
 			base.SetXandWidth(x, width);
 		}

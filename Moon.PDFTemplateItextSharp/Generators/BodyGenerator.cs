@@ -30,7 +30,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
         }
 
         /// <summary>
-        /// draw row and table items inside body. 
+        /// draw row & table items inside body. 
         /// table items are treated as tables 
         /// </summary>
         public void DrawBody(Hashtable data, IPDFDraw drawer)
