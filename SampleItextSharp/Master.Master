@@ -37,6 +37,7 @@
                     <li><a href="/SimpleTest/Default.aspx">Simple generation</a></li>
                     <li><a href="/MultipleTables/Default.aspx">Multiple tables</a></li>
                     <li><a href="/ConditionalDisplay/Default.aspx">Conditional display</a></li>
+                    <li><a href="/NewPages/Default.aspx">New pages</a></li>
                 </ul>
             </div>
         </div>

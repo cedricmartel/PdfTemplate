@@ -57,7 +57,7 @@ namespace fr.cedricmartel.SampleItextSharp.ConditionalDisplay
 
             // save file locally
             string fileDirectory = Server.MapPath("../Output/");
-            string fileName = "SimpleTest-" + String.Format("{0:yyyyMMdd-HHmmss}", DateTime.Now) + ".pdf";
+            string fileName = "ConditionalDisplay-" + String.Format("{0:yyyyMMdd-HHmmss}", DateTime.Now) + ".pdf";
             using (var filePdf = new FileStream(fileDirectory + fileName, FileMode.Create))
             {
                 using (MemoryStream stream = pdfTemplate.Close())
