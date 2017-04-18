@@ -55,6 +55,13 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     {
                         Y = Helper.GetFloatAttributeValue("y", bodyNode.Attributes, -1)
                     };
+                    // add new page if the attribute "newPage" == "true"
+                    var newPageAttribute = itemNode.Attributes?["newPage"];
+                    if (newPageAttribute != null && newPageAttribute.Value == "true")
+                    {
+                        pdfTemplate.NextPage();
+                        pdfTemplate.DrawHeader();
+                    }
                     rowGroup.AddRow(pdfTemplate._buildRow(itemNode, font));
                     pdfTemplate.DrawRowGroup(rowGroup, data, DocumentGroup.Body);
                 }
@@ -66,6 +73,13 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     var keyAttribute = itemNode.Attributes["var"];
                     if (keyAttribute == null || !data.ContainsKey(keyAttribute.Value))
                         continue;
+                    // add new page if the attribute "newPage" == "true"
+                    var newPageAttribute = itemNode.Attributes?["newPage"];
+                    if (newPageAttribute != null && newPageAttribute.Value == "true")
+                    {
+                        pdfTemplate.NextPage();
+                        pdfTemplate.DrawHeader();
+                    }
                     var tableParameters = data[keyAttribute.Value];
                     if (!(tableParameters is TableData))
                         throw new Exception("table parameter must be of type TableData");

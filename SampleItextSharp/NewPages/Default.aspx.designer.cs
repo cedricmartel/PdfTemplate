@@ -7,27 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace fr.cedricmartel.SampleItextSharp {
+namespace fr.cedricmartel.SampleItextSharp.NewPages {
     
     
-    public partial class Master {
+    public partial class Default {
         
         /// <summary>
-        /// HeadContent control.
+        /// Resulat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
-        
-        /// <summary>
-        /// PageContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder PageContent;
+        protected global::System.Web.UI.WebControls.Label Resulat;
     }
 }

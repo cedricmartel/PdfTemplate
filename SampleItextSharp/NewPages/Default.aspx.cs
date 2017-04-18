@@ -5,7 +5,7 @@ using System.IO;
 using System.Web.UI;
 using Moon.PDFTemplateItextSharp.Model;
 
-namespace fr.cedricmartel.SampleItextSharp.MultipleTables
+namespace fr.cedricmartel.SampleItextSharp.NewPages
 {
     public partial class Default : Page
     {
@@ -26,7 +26,7 @@ namespace fr.cedricmartel.SampleItextSharp.MultipleTables
             footerData.Add("{titreDocument}", "Titre du document");
 
             // data load
-            var firstTable = new TableData
+            var newPageTable = new TableData
             {
                 HeadData = new Hashtable(),
                 LoopData = new List<Hashtable>(),
@@ -44,18 +44,17 @@ namespace fr.cedricmartel.SampleItextSharp.MultipleTables
                     {"{Base}", "5,00"},
                     {"{Montant}", i}
                 };
-                firstTable.LoopData.Add(donnees1);
+                newPageTable.LoopData.Add(donnees1);
             }
-            firstTable.FootData.Add("{Total}", 250.5);
-            bodyData.Add("{FirstTable}", firstTable);
-            bodyData.Add("{SecondTable}", firstTable);
+            newPageTable.FootData.Add("{Total}", 250.5);
+            bodyData.Add("{NewPageTable}", newPageTable);
 
             // pdf generation
             pdfTemplate.Draw(headerData, bodyData, footerData);
 
             // save file locally
             string fileDirectory = Server.MapPath("../Output/");
-            string fileName = "MultipleTables-" + String.Format("{0:yyyyMMdd-HHmmss}", DateTime.Now) + ".pdf";
+            string fileName = "NewPages-" + String.Format("{0:yyyyMMdd-HHmmss}", DateTime.Now) + ".pdf";
             using (var filePdf = new FileStream(fileDirectory + fileName, FileMode.Create))
             {
                 using (MemoryStream stream = pdfTemplate.Close())
