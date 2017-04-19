@@ -72,6 +72,7 @@
     <Compile Include="Formatters\NumberVarFormatter.cs" />
     <Compile Include="Formatters\TextVarFormatter.cs" />
     <Compile Include="Formatters\VarFormatterFactory.cs" />
+    <Compile Include="Model\Orientation.cs" />
     <Compile Include="PageNumber.cs" />
     <Compile Include="DrawElement.cs" />
     <Compile Include="Image.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="TextBlock.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="Utils\AssembliesTypesLoader.cs" />
+    <Compile Include="Utils\DynamicRowGroup.cs" />
     <Compile Include="XMAtributes\FormatableVariable.cs" />
     <Compile Include="XMAtributes\Variable.cs" />
     <Compile Include="XMAtributes\XMLBackgroundImageDefinition.cs" />

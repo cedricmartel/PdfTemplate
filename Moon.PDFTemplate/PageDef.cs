@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using Moon.PDFTemplate.Utils;
 using Moon.PDFTemplate.XMAtributes;
 
 namespace Moon.PDFTemplate
@@ -86,9 +87,9 @@ namespace Moon.PDFTemplate
 		private float margin_top = 20;
 		private float margin_bottom = 20;
 		
-		private RowGroup header = new RowGroup();
+		private DynamicRowGroup header = new DynamicRowGroup();
 		private RowGroup loop = new RowGroup();
-		private RowGroup footer = new RowGroup();
+		private DynamicRowGroup footer = new DynamicRowGroup();
 		private RowGroup body = new RowGroup();
 
 		//20130607
@@ -168,7 +169,7 @@ namespace Moon.PDFTemplate
 		/// <summary>
 		/// Header group
 		/// </summary>
-		public RowGroup Header
+		public DynamicRowGroup Header
 		{
 			get { return header; }
 			set { header = value; }
@@ -186,7 +187,7 @@ namespace Moon.PDFTemplate
 		/// <summary>
 		/// Footer group
 		/// </summary>
-		public RowGroup Footer
+		public DynamicRowGroup Footer
 		{
 			get { return footer; }
 			set { footer = value; }

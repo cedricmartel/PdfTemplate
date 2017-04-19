@@ -155,6 +155,11 @@ namespace Moon.PDFDraw
 		/// </summary>
 		/// <param name="backgroundImage"></param>
 		void SetBackgroundImage( BackgroundImageDefinition backgroundImage );
+
+        /// <summary>
+        /// Change the orientation.
+        /// </summary>
+	    void RotatePage();
 	}
 
 }
