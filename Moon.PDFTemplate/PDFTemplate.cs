@@ -6,6 +6,8 @@ using System.Diagnostics;
 using Moon.PDFDraw;
 using Moon.PDFTemplate.CustomElements;
 using Moon.PDFTemplate.Formatters;
+using Moon.PDFTemplate.Model;
+using Moon.PDFTemplate.Utils;
 using Moon.PDFTemplate.XMAtributes;
 using Moon.Utils;
 
@@ -143,14 +145,12 @@ namespace Moon.PDFTemplate
             get { return _eachPageCount; }
         }
 
-        private PageNumber _pageNumberBox = null;
         /// <summary>
-        /// The page number box. Only one.
+        /// The page number box.
         /// </summary>
-        protected PageNumber PageNumberBox
-        {
-            get { return _pageNumberBox; }
-        }
+        protected List<PageNumber> PageNumberBoxes = new List<PageNumber>();
+
+        protected Orientation CurrentOrientation = Orientation.Portrait;
 
         #endregion
 
@@ -186,7 +186,7 @@ namespace Moon.PDFTemplate
         /// <summary>
         /// implement set width and height value to PageDef
         /// </summary>
-        protected abstract void SetPageDefWidthHeight();
+        protected abstract void SetPageDefWidthHeight(Orientation orientation);
 
 
         #endregion
@@ -213,13 +213,17 @@ namespace Moon.PDFTemplate
             }
             _pageDef = new PageDef(elmRoot.Attributes);
 
-            SetPageDefWidthHeight();
+            var orientation = CurrentOrientation;
+            if (Helper.GetAttributeValue("pageorientation", PageDefinition.PageDefAttrs, "landscape").ToUpper() == "LANDSCAPE")
+                orientation = Orientation.Landscape;
+
+            SetPageDefWidthHeight(orientation);
             //Console.WriteLine("PageDef widthHeight: " + pageDef.Width + ", " + pageDef.Height);
 
             XmlNodeList header_nodes = elmRoot.SelectNodes("//header");
             if (header_nodes.Count > 0)
             {
-                PageDefinition.Header = _buildRowGroup(header_nodes[0]);
+                PageDefinition.Header = _buildDynamicRowGroup(header_nodes[0]);
             }
             XmlNodeList loop_nodes = elmRoot.SelectNodes("//loop");
             if (loop_nodes.Count > 0)
@@ -235,7 +239,7 @@ namespace Moon.PDFTemplate
             if (footer_nodes.Count > 0)
             {
                 //20130606 :: jaimelopez --> special elemet for footer.
-                PageDefinition.Footer = _buildRowGroup(footer_nodes[0], true);
+                PageDefinition.Footer = _buildDynamicRowGroup(footer_nodes[0], true);
                 //---
             }
             //Console.WriteLine("call _buildPageDef in PDFTemplate");
@@ -466,10 +470,7 @@ namespace Moon.PDFTemplate
             }
 
             PageNumber _pageNumberBox = new PageNumber(text, fontAttrs, node.Attributes, vars);
-            if (this.PageNumberBox == null)
-            {
-                this._pageNumberBox = _pageNumberBox;
-            }
+            PageNumberBoxes.Add(_pageNumberBox);
             return _pageNumberBox;
         }
         //--
@@ -649,13 +650,31 @@ namespace Moon.PDFTemplate
             return _buildRowGroup(node, false);
         }
 
+        public DynamicRowGroup _buildDynamicRowGroup(XmlNode node)
+        {
+            return new DynamicRowGroup
+            {
+                XmlNode = node,
+                RowGroup = _buildRowGroup(node, false)
+            };
+        }
+
+        public DynamicRowGroup _buildDynamicRowGroup(XmlNode node, bool estFooter)
+        {
+            return new DynamicRowGroup
+            {
+                XmlNode = node,
+                RowGroup = _buildRowGroup(node, estFooter)
+            };
+        }
+
         /// <summary>
         /// </summary>
         /// 
         /// <param name="node">node of xml header, body, footer, loop</param>
         /// <param name="footer">True if its a footer page element</param>
         /// <returns></returns>
-        private RowGroup _buildRowGroup(XmlNode node, bool footer)
+        public RowGroup _buildRowGroup(XmlNode node, bool footer)
         {
             //20130606 :: jaimelopez
             RowGroup rowGroup = null;
@@ -671,7 +690,7 @@ namespace Moon.PDFTemplate
 
             //--
 
-            rowGroup.Y = PDFDraw.Helper.GetFloatAttributeValue("y", node.Attributes, -1);
+            rowGroup.Y = Helper.GetFloatAttributeValue("y", node.Attributes, -1);
 
             XmlAttributeCollection _font = DefaultFontAttrs;
             if (node.FirstChild.Name == "font")
@@ -776,7 +795,7 @@ namespace Moon.PDFTemplate
         /// </summary>
         public void DrawHeader()
         {
-            RowGroup rowGroup = PageDefinition.Header;
+            RowGroup rowGroup = PageDefinition.Header.RowGroup;
 
             foreach (Row row in rowGroup.Rows)
             {
@@ -804,7 +823,7 @@ namespace Moon.PDFTemplate
         /// </summary>
         protected void _drawFooter()
         {
-            RowGroup rowGroup = PageDefinition.Footer;
+            RowGroup rowGroup = PageDefinition.Footer.RowGroup;
             //			if(rowGroup is FooterGroup){
             //				if( ((FooterGroup)rowGroup).Absolute) return; //print int NextPage operation.
             //			}
@@ -875,12 +894,26 @@ namespace Moon.PDFTemplate
         /// </summary>
         public void NextPage()
         {
+            NextPage(CurrentOrientation);
+        }
+
+        /// <summary>
+        /// Create a next document page with param orientation.
+        /// </summary>
+        public void NextPage(Orientation orientation)
+        {
             //201306060 :: jaimelopez :: absolute footer
-            if (PageDefinition.Footer is FooterGroup && ((FooterGroup)PageDefinition.Footer).Absolute)
+            if (PageDefinition.Footer.RowGroup is FooterGroup && ((FooterGroup)PageDefinition.Footer.RowGroup).Absolute)
             {
                 //process footer in each page...
-                DrawRowGroup(PageDefinition.Footer, footerData, DocumentGroup.Footer);
+                DrawRowGroup(PageDefinition.Footer.RowGroup, footerData, DocumentGroup.Footer);
             }
+
+            SetPageDefWidthHeight(orientation);
+            
+            // we regenerate footer each time, because with may vary with landscape / portrait
+            PageDefinition.Header.RowGroup = _buildRowGroup(PageDefinition.Header.XmlNode);
+            PageDefinition.Footer.RowGroup = _buildRowGroup(PageDefinition.Footer.XmlNode, true);
 
             PdfDrawer.NextPage();
             _pageCount++;

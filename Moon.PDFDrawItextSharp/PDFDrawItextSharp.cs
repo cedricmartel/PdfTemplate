@@ -1355,6 +1355,15 @@ namespace Moon.PDFDrawItextSharp
 
 			return cell;
 		}
+
+        /// <summary>
+        /// Change the orientation.
+        /// </summary>
+	    public void RotatePage()
+        {
+            pageSize = pageSize.Rotate();
+            PdfDoc.SetPageSize(pageSize); //PdfDoc.PageSize.Rotate());
+        }
 		
 		
 		private iTextSharp.text.Image _backgroundImageCache = null;

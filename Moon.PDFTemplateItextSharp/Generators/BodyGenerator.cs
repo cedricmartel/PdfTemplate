@@ -3,6 +3,7 @@ using System.Collections;
 using System.Xml;
 using Moon.PDFDraw;
 using Moon.PDFTemplate;
+using Moon.PDFTemplate.Model;
 using Moon.PDFTemplateItextSharp.Model;
 
 namespace Moon.PDFTemplateItextSharp.Generators
@@ -59,7 +60,14 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     var newPageAttribute = itemNode.Attributes?["newPage"];
                     if (newPageAttribute != null && newPageAttribute.Value == "true")
                     {
-                        pdfTemplate.NextPage();
+                        var orientationAttribute = itemNode.Attributes?["orientation"];
+                        if (orientationAttribute == null)
+                            pdfTemplate.NextPage();
+                        else if (orientationAttribute.Value.ToUpper() == "LANDSCAPE")
+                            pdfTemplate.NextPage(Orientation.Landscape);
+                        else
+                            pdfTemplate.NextPage(Orientation.Portrait);
+
                         pdfTemplate.DrawHeader();
                     }
                     rowGroup.AddRow(pdfTemplate._buildRow(itemNode, font));
@@ -84,7 +92,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     if (!(tableParameters is TableData))
                         throw new Exception("table parameter must be of type TableData");
 
-                    tableGenerator.DrawTable((TableData) (tableParameters), drawer);
+                    tableGenerator.DrawTable((TableData)(tableParameters), drawer);
                 }
             }
         }

@@ -8,6 +8,7 @@ using iTextSharp.text.pdf;
 using Moon.PDFDraw;
 using Moon.PDFDrawItextSharp;
 using Moon.PDFTemplate;
+using Moon.PDFTemplate.Model;
 using Moon.PDFTemplateItextSharp.Generators;
 using Moon.PDFTemplateItextSharp.Model;
 using Moon.Utils;
@@ -136,10 +137,10 @@ namespace Moon.PDFTemplateItextSharp
             //----
 
             //20130606 :: Absolute Footer
-            if (PageDefinition.Footer != null && PageDefinition.Footer is FooterGroup && ((FooterGroup)PageDefinition.Footer).Absolute)
+            if (PageDefinition.Footer != null && PageDefinition.Footer.RowGroup is FooterGroup && ((FooterGroup)PageDefinition.Footer.RowGroup).Absolute)
             {
                 //reserve space to absolute footer...
-                ((PDFDrawItextSharp.PDFDrawItextSharp)PdfDrawer).ReserveSpaceToFooter(PageDefinition.Footer.Y);
+                ((PDFDrawItextSharp.PDFDrawItextSharp)PdfDrawer).ReserveSpaceToFooter(PageDefinition.Footer.RowGroup.Y);
             }
             //----
 
@@ -221,14 +222,14 @@ namespace Moon.PDFTemplateItextSharp
             {
                 PDFDrawItextSharp.PDFDrawItextSharp p = (PDFDrawItextSharp.PDFDrawItextSharp) PdfDrawer;
                 Font font = null;
-                if (PageNumberBox != null)
+                if (PageNumberBoxes != null && PageNumberBoxes.Count > 0)
                 {
-                    font = p.CreateFontFromAttribute(PageNumberBox.FontAttributes);
+                    font = p.CreateFontFromAttribute(PageNumberBoxes[0].FontAttributes);
                 }
                 p.Close();
                 Debug();
 
-                if (PageNumberBox != null)
+                if (PageNumberBoxes != null && PageNumberBoxes.Count > 0)
                 {
                     DrawPageNumber(font);
                 }
@@ -272,6 +273,10 @@ namespace Moon.PDFTemplateItextSharp
 #if DEBUG
                     //Console.WriteLine("PDFTemplateItextSharp.DrawPageNumber: " + currentPage + "/" + totalPage);
 #endif
+                    if (PageNumberBoxes.Count < currentPage)
+                        break;
+                    var pageNumberBox = PageNumberBoxes[currentPage - 1];
+
                     Hashtable data = new Hashtable
                     {
                         {"{__PAGE__}", currentPage}, 
@@ -280,18 +285,18 @@ namespace Moon.PDFTemplateItextSharp
 
                     PdfContentByte cb = stamper.GetOverContent(drawPage);
                     //iTextSharp.text.Phrase phrase = new iTextSharp.text.Chunk(pageNumberBox.GetText(data), font);
-                    Phrase phrase = selector.Process(PageNumberBox.GetText(data));
+                    Phrase phrase = selector.Process(pageNumberBox.GetText(data));
 
                     //Console.WriteLine("chunk.Content: " + chunk.Content);
                     //iTextSharp.text.pdf.ColumnText column = new iTextSharp.text.pdf.ColumnText(cb);
                     int align = PDFDrawItextSharpHelper.Align(
                         Helper.GetAttributeValue(
                             "align",
-                            PageNumberBox.Attributes, "Left"));
+                            pageNumberBox.Attributes, "Left"));
 
                     //20130610 :: mellorasinxelas :: change to static class
                     //20130721 :: cmwong :: change to PDFDrawItextSharp.DrawString()
-                    pDraw.DrawString(cb, phrase, PageNumberBox.X, PageNumberBox.Y, PageNumberBox.Width, align, null);
+                    pDraw.DrawString(cb, phrase, pageNumberBox.X, pageNumberBox.Y, pageNumberBox.Width, align, null);
 
                     currentPage++;
                     drawPage++;
@@ -305,18 +310,18 @@ namespace Moon.PDFTemplateItextSharp
         /// implement for PDFTemplate
         /// this will call when initialize PDFTemplate object!
         /// </summary>
-        protected override void SetPageDefWidthHeight()
+        protected override void SetPageDefWidthHeight(Orientation orientation)
         {
             // this will call from PDFTemplate._buildPageDef()
-            pageSize = PDFDrawItextSharpHelper.PageSize(
-                Helper.GetAttributeValue("pagesize", PageDefinition.PageDefAttrs, "A4"));
+            if (pageSize == null)
+                pageSize = PDFDrawItextSharpHelper.PageSize(Helper.GetAttributeValue("pagesize", PageDefinition.PageDefAttrs, "A4"));
 
-            if (Helper.GetAttributeValue(
-                "pageorientation",
-                PageDefinition.PageDefAttrs,
-                "landscape").ToUpper() == "LANDSCAPE")
+            if (orientation != CurrentOrientation)
             {
+                this.CurrentOrientation = orientation;
+
                 pageSize = pageSize.Rotate();
+                PdfDrawer?.RotatePage();
             }
 
             PageDefinition.Width = pageSize.Width;

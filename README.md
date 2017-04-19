@@ -18,5 +18,6 @@ Working copy for following patches :
  - OK - table won't show if associated data is null
  - OK - add condition on body items to hide item if associated data is null
  - OK - add support for dynamic background color inside table cells
- - OK - add attribute newPage to create a new page for a row or a table inside body tag
+ - OK - add attribute to create a new page for a row or a table inside body tag
+ - OK - add attribute to change the orientation dynamic for newPage
 
