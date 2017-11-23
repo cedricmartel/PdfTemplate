@@ -30,7 +30,7 @@
     <row condition="{Condition}">
       <textblock width="100%" align="left" text="This row and following table will output only if {Condition} is true" />
     </row>
-    
+
     <table tablewidth="100%" cellperrow="6" cellwidth="1,2,2,1,1,1" width="100%" var="{FirstTable}" condition="{Condition}">
       <tablehead>
         <tablerow>
@@ -107,7 +107,6 @@
           <tablecell />
           <tablecell />
           <tablecell />
-
           <tablecell border="Top, Bottom, Left, Right" backgroundcolor="#9BCFF9">
             <textbox text="Total">
             </textbox>
@@ -117,7 +116,29 @@
               <var name="{Total}" formatter="number" formatterparameters="formatstring=0.00€" />
             </textbox>
           </tablecell>
+        </tablerow>
 
+        <tablerow>
+          <tablecell>
+            <textbox text=" " />
+          </tablecell>
+          <tablecell />
+          <tablecell />
+          <tablecell />
+          <tablecell />
+          <tablecell />
+        </tablerow>
+
+        <tablerow>
+          <tablecell border="Top, Bottom, Left, Right" backgroundcolor="#9BCFF9">
+            <textbox text="Image">
+            </textbox>
+          </tablecell>
+          <tablecell colspan="5" border="Top, Bottom, Left, Right">
+            <image src="{logoUrl}" align="left" height="80" width="100" >
+              <var name="{logoUrl}" />
+            </image>
+          </tablecell>
         </tablerow>
       </tablefoot>
     </table>
