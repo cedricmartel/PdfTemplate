@@ -264,10 +264,20 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     }
                     else if (drawElement is PDFTemplate.Image)
                     {
-                        iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(drawElement.Attributes);
-                        image.Alignment = PDFDrawItextSharpHelper.Align(XmlHelper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+                        //iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(drawElement.Attributes);
+                        
 
-                        cell.AddElement(image);
+                        //cell.AddElement(image);
+
+                        // 2017-11-23 : fix error image in table
+                        string src = Moon.PDFDraw.Helper.GetAttributeValue("src", drawElement.Attributes, "");
+                        if (data.Contains(src))
+                        {
+                            iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(data[src].ToString(), drawElement.Attributes);
+                            image.Alignment = PDFDrawItextSharpHelper.Align(Helper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+
+                            cell.AddElement(image);
+                        }
                     }
                 }
                 table.AddCell(cell);

@@ -47,6 +47,7 @@ namespace fr.cedricmartel.SampleItextSharp.ConditionalDisplay
                 firstTable.LoopData.Add(donnees1);
             }
             firstTable.FootData.Add("{Total}", 250.5);
+            firstTable.FootData.Add("{logoUrl}", Server.MapPath("LogoPdf.jpg"));
             bodyData.Add("{FirstTable}", firstTable);
 
             // Here we set the condition value for conditional output
