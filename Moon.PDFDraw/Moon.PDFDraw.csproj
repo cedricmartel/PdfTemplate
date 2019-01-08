@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Moon.PDFDraw</RootNamespace>
     <AssemblyName>Moon.PDFDraw</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
@@ -62,7 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundImageDefinition.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Helpers\IntHelper.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="IPDFDraw.cs" />
     <Compile Include="IStyleContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -54,7 +54,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
                 {
                     RowGroup rowGroup = new RowGroup
                     {
-                        Y = Helper.GetFloatAttributeValue("y", bodyNode.Attributes, -1)
+                        Y = XmlHelper.GetFloatAttributeValue("y", bodyNode.Attributes, -1)
                     };
                     // add new page if the attribute "newPage" == "true"
                     var newPageAttribute = itemNode.Attributes?["newPage"];
@@ -92,7 +92,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     if (!(tableParameters is TableData))
                         throw new Exception("table parameter must be of type TableData");
 
-                    tableGenerator.DrawTable((TableData)(tableParameters), drawer);
+                    tableGenerator.DrawTable((TableData)tableParameters, drawer);
                 }
             }
         }

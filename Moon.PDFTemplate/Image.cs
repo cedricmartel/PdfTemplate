@@ -96,7 +96,7 @@ namespace Moon.PDFTemplate
         {
             //this.Width = PDFDraw.Helper.GetFloatAttributeValue(WidthAttributeConstant, Attributes, 50);
             //20150914 :: If attributes have x attribute, attribute value overwrite default X in nexts steps.
-            SetXandWidth(X, PDFDraw.Helper.GetFloatAttributeValue(WidthAttributeConstant, Attributes, 50) );
+            SetXandWidth(X, PDFDraw.XmlHelper.GetFloatAttributeValue(WidthAttributeConstant, Attributes, 50) );
         }
 
 
@@ -137,11 +137,11 @@ namespace Moon.PDFTemplate
 
             
             //20150914 :: supports absolute X,Y.
-            float absX = Moon.PDFDraw.Helper.GetFloatAttributeValue(AbsoluteXAttributeConstant, Attributes, -1);
-			float absY = Moon.PDFDraw.Helper.GetFloatAttributeValue(AbsoluteYAttributeConstant, Attributes, -1);
+            float absX = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(AbsoluteXAttributeConstant, Attributes, -1);
+			float absY = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(AbsoluteYAttributeConstant, Attributes, -1);
 			if (absX != -1 && absY != -1)
 			{//new
-				pdfDraw.DrawImage(absX, absY, /*src.ToString(),*/ Attributes);
+				pdfDraw.DrawImage(absX, absY, src.ToString(), Attributes);
 			}
 			else{//classic				
             	pdfDraw.DrawImage(X, src.ToString(), Attributes );
@@ -167,7 +167,7 @@ namespace Moon.PDFTemplate
         /// <returns></returns>
         public override float GetHeight()
         {
-            return PDFDraw.Helper.GetFloatAttributeValue(HeightAttributeConstant, Attributes, 0);
+            return PDFDraw.XmlHelper.GetFloatAttributeValue(HeightAttributeConstant, Attributes, 0);
         }
     }
 }

@@ -205,6 +205,8 @@ namespace Moon.PDFTemplate
         /// </summary>
         protected virtual void _buildPageDef()
         {
+            // TODO it would be usefull to check xml document against xsd
+
             // build the header, loop, body, footer from xml!
             XmlElement elmRoot = XMLTemplate.DocumentElement;
             if (elmRoot.Name.ToUpper() != "PAGEDEF")
@@ -214,7 +216,7 @@ namespace Moon.PDFTemplate
             _pageDef = new PageDef(elmRoot.Attributes);
 
             var orientation = CurrentOrientation;
-            if (Helper.GetAttributeValue("pageorientation", PageDefinition.PageDefAttrs, "landscape").ToUpper() == "LANDSCAPE")
+            if (XmlHelper.GetAttributeValue("pageorientation", PageDefinition.PageDefAttrs, "landscape").ToUpper() == "LANDSCAPE")
                 orientation = Orientation.Landscape;
 
             SetPageDefWidthHeight(orientation);
@@ -254,14 +256,14 @@ namespace Moon.PDFTemplate
         /// <returns></returns>
         public TextBox BuildTextBox(XmlNode node, XmlAttributeCollection fontAttrs)
         {
-            string text = PDFDraw.Helper.GetAttributeValue(TextBox.TextAttributeConstant, node.Attributes, "");
+            string text = XmlHelper.GetAttributeValue(TextBox.TextAttributeConstant, node.Attributes, "");
 
             List<Variable> vars = new List<Variable>();
 
             XmlNodeList varNodes = node.SelectNodes(VarElementConstant);
             foreach (XmlNode varNode in varNodes)
             {
-                string name = PDFDraw.Helper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
+                string name = XmlHelper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
 
                 if (name != string.Empty)
                 {
@@ -269,15 +271,15 @@ namespace Moon.PDFTemplate
                     //load formatter
                     DefaultFormat? formatter = null;
                     string formatterParams = null;
-                    formatter = BasicVarFormatter.Parse(PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
+                    formatter = BasicVarFormatter.Parse(XmlHelper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
                     if (formatter != null)
                     {
-                        formatterParams = PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
+                        formatterParams = XmlHelper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
                     }
 
                     if (UseOptionalTags)
                     {
-                        bool optional = PDFDraw.Helper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
+                        bool optional = XmlHelper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
 
                         if (formatter == null)
                         {
@@ -319,7 +321,7 @@ namespace Moon.PDFTemplate
         {
 
             //load object name 
-            string classname = PDFDraw.Helper.GetAttributeValue(DefaultCustomElement.ClassNameAttributeCustomElement, node.Attributes, null);
+            string classname = XmlHelper.GetAttributeValue(DefaultCustomElement.ClassNameAttributeCustomElement, node.Attributes, null);
             if (classname == null) throw new NullReferenceException("Custom elements needs Class Name!");
 
             //load VARS
@@ -329,7 +331,7 @@ namespace Moon.PDFTemplate
             XmlNodeList varNodes = node.SelectNodes(VarElementConstant);
             foreach (XmlNode varNode in varNodes)
             {
-                string name = PDFDraw.Helper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
+                string name = XmlHelper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
 
                 if (name != string.Empty)
                 {
@@ -337,15 +339,15 @@ namespace Moon.PDFTemplate
                     //load formatter
                     DefaultFormat? formatter = null;
                     string formatterParams = null;
-                    formatter = BasicVarFormatter.Parse(PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
+                    formatter = BasicVarFormatter.Parse(XmlHelper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
                     if (formatter != null)
                     {
-                        formatterParams = PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
+                        formatterParams = XmlHelper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
                     }
 
                     if (UseOptionalTags)
                     {
-                        bool optional = PDFDraw.Helper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
+                        bool optional = XmlHelper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
                         if (formatter == null)
                         {
                             vars.Add(new Variable(name, optional));
@@ -422,14 +424,14 @@ namespace Moon.PDFTemplate
         /// <returns></returns>
         private PageNumber _buildPageNumber(XmlNode node, XmlAttributeCollection fontAttrs)
         {
-            string text = PDFDraw.Helper.GetAttributeValue(TextBox.TextAttributeConstant, node.Attributes, "");
+            string text = XmlHelper.GetAttributeValue(TextBox.TextAttributeConstant, node.Attributes, "");
 
             List<Variable> vars = new List<Variable>();
 
             XmlNodeList varNodes = node.SelectNodes(VarElementConstant);
             foreach (XmlNode varNode in varNodes)
             {
-                string name = PDFDraw.Helper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
+                string name = XmlHelper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
 
                 if (name != string.Empty)
                 {
@@ -437,15 +439,15 @@ namespace Moon.PDFTemplate
                     //load formatter
                     DefaultFormat? formatter = null;
                     string formatterParams = null;
-                    formatter = BasicVarFormatter.Parse(PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
+                    formatter = BasicVarFormatter.Parse(XmlHelper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
                     if (formatter != null)
                     {
-                        formatterParams = PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
+                        formatterParams = XmlHelper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
                     }
 
                     if (UseOptionalTags)
                     {
-                        bool optional = PDFDraw.Helper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
+                        bool optional = XmlHelper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
                         if (formatter == null)
                         {
                             vars.Add(new Variable(name, optional));
@@ -485,13 +487,13 @@ namespace Moon.PDFTemplate
         /// <returns></returns>
         private TextBlock _buildTextBlock(XmlNode node, XmlAttributeCollection fontAttrs)
         {
-            string text = PDFDraw.Helper.GetAttributeValue(TextBlock.TextAttributeConstant, node.Attributes, "");
+            string text = XmlHelper.GetAttributeValue(TextBlock.TextAttributeConstant, node.Attributes, "");
             List<Variable> vars = new List<Variable>();
 
             XmlNodeList varNodes = node.SelectNodes(VarElementConstant);
             foreach (XmlNode varNode in varNodes)
             {
-                string name = PDFDraw.Helper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
+                string name = XmlHelper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
 
                 if (name != string.Empty)
                 {
@@ -499,15 +501,15 @@ namespace Moon.PDFTemplate
                     //load formatter
                     DefaultFormat? formatter = null;
                     string formatterParams = null;
-                    formatter = BasicVarFormatter.Parse(PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
+                    formatter = BasicVarFormatter.Parse(XmlHelper.GetAttributeValue(FormatableVariable.FormatterAttributeConstant, varNode.Attributes, null));
                     if (formatter != null)
                     {
-                        formatterParams = PDFDraw.Helper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
+                        formatterParams = XmlHelper.GetAttributeValue(FormatableVariable.FormatterParametersAttributeConstant, varNode.Attributes, null);
                     }
 
                     if (UseOptionalTags)
                     {
-                        bool optional = PDFDraw.Helper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
+                        bool optional = XmlHelper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false);
                         if (formatter == null)
                         {
                             vars.Add(new Variable(name, optional));
@@ -564,13 +566,13 @@ namespace Moon.PDFTemplate
             XmlNodeList varNodes = node.SelectNodes(VarElementConstant);
             foreach (XmlNode varNode in varNodes)
             {
-                string name = PDFDraw.Helper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
+                string name = XmlHelper.GetAttributeValue(Variable.NameAttributeConstant, varNode.Attributes, "");
                 if (name != string.Empty)
                 {
                     if (UseOptionalTags)
                     {
                         vars.Add(new Variable(name,
-                                               PDFDraw.Helper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false)
+                                               XmlHelper.GetAttributeBoolean(Variable.OptionalAttributeConstant, varNode.Attributes, false)
                                               )
                                 );
                     }
@@ -681,7 +683,7 @@ namespace Moon.PDFTemplate
 
             if (footer)
             {
-                rowGroup = new FooterGroup(PDFDraw.Helper.GetAttributeBoolean(FooterGroup.AbsoluteAttribute, node.Attributes, false));
+                rowGroup = new FooterGroup(XmlHelper.GetAttributeBoolean(FooterGroup.AbsoluteAttribute, node.Attributes, false));
             }
             else
             {
@@ -690,7 +692,7 @@ namespace Moon.PDFTemplate
 
             //--
 
-            rowGroup.Y = Helper.GetFloatAttributeValue("y", node.Attributes, -1);
+            rowGroup.Y = XmlHelper.GetFloatAttributeValue("y", node.Attributes, -1);
 
             XmlAttributeCollection _font = DefaultFontAttrs;
             if (node.FirstChild.Name == "font")

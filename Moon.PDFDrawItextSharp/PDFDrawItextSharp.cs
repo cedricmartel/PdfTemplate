@@ -547,7 +547,7 @@ namespace Moon.PDFDrawItextSharp
 		{
 			//fontsize, fontstyle, fontcolor
 			iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
-			int align = PDFDrawItextSharpHelper.Align(Moon.PDFDraw.Helper.GetAttributeValue(AlignAttributeConstant, textAttrs, "Left"));
+			int align = PDFDrawItextSharpHelper.Align(Moon.PDFDraw.XmlHelper.GetAttributeValue(AlignAttributeConstant, textAttrs, "Left"));
 			iTextSharp.text.pdf.FontSelector selector = FontSelector(font);
 			iTextSharp.text.Phrase phrase = selector.Process(txt);
 
@@ -641,7 +641,7 @@ namespace Moon.PDFDrawItextSharp
 		{
 			iTextSharp.text.Font font = CreateFontFromAttribute(fontAttrs);
 			int align = PDFDrawItextSharpHelper.Align(
-				Moon.PDFDraw.Helper.GetAttributeValue(AlignAttributeConstant, textAttrs, "Near"));
+				Moon.PDFDraw.XmlHelper.GetAttributeValue(AlignAttributeConstant, textAttrs, "Near"));
 			
 			iTextSharp.text.Chunk chunk = new iTextSharp.text.Chunk(txt, font);
 			
@@ -652,7 +652,7 @@ namespace Moon.PDFDrawItextSharp
 				chunk.SetBackground( new BaseColor(backgroundDef.BackgroundColor.Value) );//sets the same backcolor to the text.
 			}
 			//----
-			float height = Moon.PDFDraw.Helper.GetFloatAttributeValue( "height", textAttrs, font.Size + (font.Size / 2));
+			float height = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue( "height", textAttrs, font.Size + (font.Size / 2));
 
 			DrawBlockString(chunk, x, width, align, height, backgroundDef);
 		}
@@ -797,8 +797,8 @@ namespace Moon.PDFDrawItextSharp
 		{
 			// attribute
 			// color, linethickness
-			iTextSharp.text.BaseColor color = new iTextSharp.text.BaseColor(Moon.PDFDraw.Helper.GetAttributeColor(ColorAttributeConstant, lineAttrs, "Black"));
-			float lineThickness = Moon.PDFDraw.Helper.GetFloatAttributeValue(LineThicknessAttributeConstant,lineAttrs,  1f);
+			iTextSharp.text.BaseColor color = new iTextSharp.text.BaseColor(Moon.PDFDraw.XmlHelper.GetAttributeColor(ColorAttributeConstant, lineAttrs, "Black"));
+			float lineThickness = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(LineThicknessAttributeConstant,lineAttrs,  1f);
 
 			DrawVerticalLine(x_start, x_end, lineThickness, color);
 		}
@@ -879,21 +879,26 @@ namespace Moon.PDFDrawItextSharp
 			iTextSharp.text.Image img = CreateImageFromAttribute(imageAttrs);
 			DrawImage(img, x, y);
 		}
-		
-		
-		/// <summary>
-		/// Draws image. Main method. Sets absolute position. 
-		/// 
-		/// </summary>
-		/// <param name="img"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="imageAttrs">optional</param>
-		private  void _PreITextDrawImage(iTextSharp.text.Image img, float x, float y, XmlAttributeCollection imageAttrs){
+
+        public void DrawImage(float x, float y, string src, XmlAttributeCollection imageAttrs)
+        {
+            iTextSharp.text.Image img = CreateImageFromAttribute(src, imageAttrs);
+            DrawImage(img, x, y);
+        }
+
+        /// <summary>
+        /// Draws image. Main method. Sets absolute position. 
+        /// 
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="imageAttrs">optional</param>
+        private  void _PreITextDrawImage(iTextSharp.text.Image img, float x, float y, XmlAttributeCollection imageAttrs){
 			
 			if(img != null && imageAttrs != null){
-				string attrAlign = Helper.GetAttributeValue( AlignAttributeConstant, imageAttrs, "none" );				
-				float attrWidth = Helper.GetFloatAttributeValue( WidthAttributeConstant, imageAttrs, -1 );
+				string attrAlign = XmlHelper.GetAttributeValue( AlignAttributeConstant, imageAttrs, "none" );				
+				float attrWidth = XmlHelper.GetFloatAttributeValue( WidthAttributeConstant, imageAttrs, -1 );
 				if(attrWidth != -1 && string.Equals( attrAlign, "center", StringComparison.InvariantCultureIgnoreCase) ){
 					//get img size and calc new x position.
 					float recalcS =  attrWidth - img.ScaledWidth;
@@ -1019,7 +1024,7 @@ namespace Moon.PDFDrawItextSharp
 		/// <returns></returns>
 		public iTextSharp.text.Image CreateImageFromAttribute(XmlAttributeCollection imgAttrs)
 		{
-			string src = Moon.PDFDraw.Helper.GetAttributeValue("src", imgAttrs, "");
+			string src = Moon.PDFDraw.XmlHelper.GetAttributeValue("src", imgAttrs, "");
 			return CreateImageFromAttribute(src, imgAttrs);
 		}
 		
@@ -1033,14 +1038,14 @@ namespace Moon.PDFDrawItextSharp
 		{
 			try{
 				//size
-				float width = Moon.PDFDraw.Helper.GetFloatAttributeValue(WidthAttributeConstant, imgAttrs, -1);
-				float height = Moon.PDFDraw.Helper.GetFloatAttributeValue(HeightAttributeConstant, imgAttrs, -1);
+				float width = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(WidthAttributeConstant, imgAttrs, -1);
+				float height = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(HeightAttributeConstant, imgAttrs, -1);
 				//absolute position
-				float x = Moon.PDFDraw.Helper.GetFloatAttributeValue(AbsoluteXAttributeConstant, imgAttrs, -1);
-				float y = Moon.PDFDraw.Helper.GetFloatAttributeValue(AbsoluteYAttributeConstant, imgAttrs, -1);
+				float x = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(AbsoluteXAttributeConstant, imgAttrs, -1);
+				float y = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(AbsoluteYAttributeConstant, imgAttrs, -1);
 				
 				//20150914 :: layout
-				string layout = Moon.PDFDraw.Helper.GetAttributeValue( LayoutAttributeConstant, imgAttrs, null);
+				string layout = Moon.PDFDraw.XmlHelper.GetAttributeValue( LayoutAttributeConstant, imgAttrs, null);
 				//
 				
 				iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(src);
@@ -1090,13 +1095,13 @@ namespace Moon.PDFDrawItextSharp
 		public virtual iTextSharp.text.Font CreateFontFromAttribute(XmlAttributeCollection fontAttrs)
 		{
 			iTextSharp.text.Font font = CreateFont(
-				Moon.PDFDraw.Helper.GetAttributeValue("fonttype", fontAttrs, "Courier"));
+				Moon.PDFDraw.XmlHelper.GetAttributeValue("fonttype", fontAttrs, "Courier"));
 
-			font.Size = Moon.PDFDraw.Helper.GetFloatAttributeValue("fontsize", fontAttrs, 10f);
+			font.Size = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("fontsize", fontAttrs, 10f);
 			font.SetStyle(PDFDrawItextSharpHelper.FontStyle(
-				Moon.PDFDraw.Helper.GetAttributeValue("fontstyle", fontAttrs, "REGULAR")));
+				Moon.PDFDraw.XmlHelper.GetAttributeValue("fontstyle", fontAttrs, "REGULAR")));
 			font.Color = new iTextSharp.text.BaseColor(
-				Moon.PDFDraw.Helper.GetAttributeColor("fontcolor", fontAttrs, "Black"));
+				Moon.PDFDraw.XmlHelper.GetAttributeColor("fontcolor", fontAttrs, "Black"));
 
 			return font;
 		}
@@ -1231,10 +1236,9 @@ namespace Moon.PDFDrawItextSharp
 		/// <returns></returns>
 		public iTextSharp.text.pdf.PdfPTable CreateTable(XmlAttributeCollection attrs)
 		{
-			float tableWidth = Moon.PDFDraw.Helper.GetFloatAttributeValue("tablewidth", attrs, -1);
-			int cellPerRow = Moon.PDFDraw.Helper.GetIntAttributeValue("cellperrow", attrs, -1);
-			float[] cellWidth = Moon.PDFDraw.Helper.GetFloatArray("cellwidth", attrs);
-			
+			float tableWidth = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("tablewidth", attrs, -1);
+			int cellPerRow = Moon.PDFDraw.XmlHelper.GetIntAttributeValue("cellperrow", attrs, -1);
+			float[] cellWidth = Moon.PDFDraw.XmlHelper.GetFloatArray("cellwidth", attrs);
 
 			return CreateTable(tableWidth, cellPerRow, cellWidth);
 		}
@@ -1289,13 +1293,13 @@ namespace Moon.PDFDrawItextSharp
 		/// </summary>
 		public iTextSharp.text.pdf.PdfPCell CreateTableCell(XmlAttributeCollection cellAttrs, System.Collections.IDictionary data)
 		{
-			int colspan = Moon.PDFDraw.Helper.GetIntAttributeValue("colspan", cellAttrs, 0);
+			int colspan = Moon.PDFDraw.XmlHelper.GetIntAttributeValue("colspan", cellAttrs, 0);
 			int horizontalalign = PDFDrawItextSharpHelper.Align(
-				Moon.PDFDraw.Helper.GetAttributeValue("horizontalalign", cellAttrs, "Left"));
+				Moon.PDFDraw.XmlHelper.GetAttributeValue("horizontalalign", cellAttrs, "Left"));
 			int border = PDFDrawItextSharpHelper.Border(
-				Moon.PDFDraw.Helper.GetStringArray(BorderAttributeConstant, cellAttrs));
+				Moon.PDFDraw.XmlHelper.GetStringArray(BorderAttributeConstant, cellAttrs));
 			iTextSharp.text.BaseColor borderColor = new iTextSharp.text.BaseColor(
-				Moon.PDFDraw.Helper.GetAttributeColor("bordercolor", cellAttrs, "Black"));
+				Moon.PDFDraw.XmlHelper.GetAttributeColor("bordercolor", cellAttrs, "Black"));
 			
 			#if DEBUG
 			//Console.WriteLine("PDFDrawItextSharp.CreateTableCell Border: " + border);
@@ -1308,11 +1312,11 @@ namespace Moon.PDFDrawItextSharp
 				cell.Colspan = colspan;
 			}
 			
-			float borderWidth = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidth", cellAttrs, -1);
-			float borderWidthLeft = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthleft", cellAttrs, -1);
-			float borderWidthTop = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthtop", cellAttrs, -1);
-			float borderWidthRight = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthright", cellAttrs, -1);
-			float borderWidthBottom = Moon.PDFDraw.Helper.GetFloatAttributeValue("borderwidthbottom", cellAttrs, -1);
+			float borderWidth = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("borderwidth", cellAttrs, -1);
+			float borderWidthLeft = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("borderwidthleft", cellAttrs, -1);
+			float borderWidthTop = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("borderwidthtop", cellAttrs, -1);
+			float borderWidthRight = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("borderwidthright", cellAttrs, -1);
+			float borderWidthBottom = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue("borderwidthbottom", cellAttrs, -1);
 			if (borderWidth != -1) cell.BorderWidth = borderWidth;
 			if (borderWidthLeft != -1) cell.BorderWidthLeft = borderWidthLeft;
 			if (borderWidthTop != -1) cell.BorderWidthTop = borderWidthTop;
@@ -1327,8 +1331,8 @@ namespace Moon.PDFDrawItextSharp
 			cell.BorderColor = borderColor;
 
 			//20130610 :: Add background color
-			if( Moon.PDFDraw.Helper.GetAttributeValue(BackgroundColorAttributeConstant, cellAttrs, null) != null ){
-				cell.BackgroundColor = new BaseColor(Helper.GetAttributeColor(BackgroundColorAttributeConstant, cellAttrs, "White", data));
+			if( Moon.PDFDraw.XmlHelper.GetAttributeValue(BackgroundColorAttributeConstant, cellAttrs, null) != null ){
+				cell.BackgroundColor = new BaseColor(XmlHelper.GetAttributeColor(BackgroundColorAttributeConstant, cellAttrs, "White", data));
 			}
 			//---
 			
@@ -1548,7 +1552,6 @@ namespace Moon.PDFDrawItextSharp
 		{
 			return _arabicHebrew.IsMatch(text);
 		}
-		
-		
-	}
+
+    }
 }

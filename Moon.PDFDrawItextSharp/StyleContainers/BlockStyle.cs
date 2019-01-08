@@ -148,13 +148,13 @@ namespace Moon.PDFDrawItextSharp.StyleContainers
 		{
 			if(attrs != null){
 				           
-				if( PDFDraw.Helper.GetAttributeValue( BorderColorAttributeConstant , attrs, null ) != null ){
-				   	BorderColor = PDFDraw.Helper.GetAttributeColor(BorderColorAttributeConstant, attrs, "White");
+				if( PDFDraw.XmlHelper.GetAttributeValue( BorderColorAttributeConstant , attrs, null ) != null ){
+				   	BorderColor = PDFDraw.XmlHelper.GetAttributeColor(BorderColorAttributeConstant, attrs, "White");
 				}
-           		this.BorderWidth = PDFDraw.Helper.GetFloatAttributeValue( BorderWithAttributeConstant, attrs, 1.0F );
-				this.FillBackground = PDFDraw.Helper.GetAttributeBoolean( FillBackgroundAttributeConstant, attrs, false );		
+           		this.BorderWidth = PDFDraw.XmlHelper.GetFloatAttributeValue( BorderWithAttributeConstant, attrs, 1.0F );
+				this.FillBackground = PDFDraw.XmlHelper.GetAttributeBoolean( FillBackgroundAttributeConstant, attrs, false );		
 
-				this.Borders = PDFDrawItextSharpHelper.Border(	Moon.PDFDraw.Helper.GetStringArray(BorderAttributeConstant, attrs));
+				this.Borders = PDFDrawItextSharpHelper.Border(	Moon.PDFDraw.XmlHelper.GetStringArray(BorderAttributeConstant, attrs));
 				if(this.Borders != iTextSharp.text.Rectangle.NO_BORDER){
 					if(BorderWidth <= 0)BorderWidth = 1.0F; //defaults
 					if(BorderColor == null)BorderColor = Color.Black; //defaults.

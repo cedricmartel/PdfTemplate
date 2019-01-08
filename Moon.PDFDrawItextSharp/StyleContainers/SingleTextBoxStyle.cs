@@ -57,8 +57,8 @@ namespace Moon.PDFDrawItextSharp.StyleContainers
 		public SingleTextBoxStyle( XmlAttributeCollection attrs ){
 			
 			if(attrs != null){
-				if( PDFDraw.Helper.GetAttributeValue( BackgroundColorAttributeConstant , attrs, null ) != null ){
-				   	BackgroundColor = PDFDraw.Helper.GetAttributeColor(BackgroundColorAttributeConstant, attrs, "White");
+				if( PDFDraw.XmlHelper.GetAttributeValue( BackgroundColorAttributeConstant , attrs, null ) != null ){
+				   	BackgroundColor = PDFDraw.XmlHelper.GetAttributeColor(BackgroundColorAttributeConstant, attrs, "White");
 				}           
 			}
 		}

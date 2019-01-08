@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Xml;
+using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Moon.PDFDraw;
 using Moon.PDFDrawItextSharp;
 using Moon.PDFTemplate;
 using Moon.PDFTemplateItextSharp.Model;
+using Moon.PDFDraw.Helpers;
 
 namespace Moon.PDFTemplateItextSharp.Generators
 {
@@ -21,6 +23,11 @@ namespace Moon.PDFTemplateItextSharp.Generators
         private readonly TableRowGroup tableRowGroupHead = new TableRowGroup();
         private readonly TableRowGroup tableRowGroupLoop = new TableRowGroup();
         private readonly TableRowGroup tableRowGroupFoot = new TableRowGroup();
+
+        XmlAttributeCollection fontHead;
+        XmlAttributeCollection fontLoop;
+        XmlAttributeCollection fontFoot;
+
 
         private TableData tableData;
         private IPDFDraw pdfDrawer;
@@ -44,11 +51,22 @@ namespace Moon.PDFTemplateItextSharp.Generators
                 XmlNode tableLoopNode = tableNode.SelectSingleNode(".//tableloop");
                 XmlNode tableFootNode = tableNode.SelectSingleNode(".//tablefoot");
 
+                fontHead = GetFont(tableHeadNode);
+                fontLoop = GetFont(tableLoopNode);
+                fontFoot = GetFont(tableFootNode);
+
                 this.tableElement = tableElt;
-                tableRowGroupHead = tableHeadNode != null ? BuildTableRowGroup(tableHeadNode) : null;
-                tableRowGroupLoop = tableLoopNode != null ? BuildTableRowGroup(tableLoopNode) : null;
-                tableRowGroupFoot = tableFootNode != null ? BuildTableRowGroup(tableFootNode) : null;
+                tableRowGroupHead = tableHeadNode != null ? BuildTableRowGroup(tableHeadNode, fontHead) : null;
+                tableRowGroupLoop = tableLoopNode != null ? BuildTableRowGroup(tableLoopNode, fontLoop) : null;
+                tableRowGroupFoot = tableFootNode != null ? BuildTableRowGroup(tableFootNode, fontFoot) : null;
             }
+        }
+
+        private XmlNode GenerateNode(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            return doc.FirstChild;
         }
 
         /// <summary>
@@ -58,6 +76,45 @@ namespace Moon.PDFTemplateItextSharp.Generators
         {
             tableData = data;
             pdfDrawer = drawer;
+
+            // Dynamic columns init: add dynamic columns model
+            if(tableData.DynamicColumns != null && tableData.DynamicColumns.Any())
+            {
+                // define dynamic table object attributes 
+                var tableAttributes = tableElement.Attributes;
+                XmlNode cellPerRowAttr = tableAttributes.GetNamedItem("cellperrow");
+                XmlNode cellwidthAttr = tableAttributes.GetNamedItem("cellwidth");
+                if (cellPerRowAttr != null && cellwidthAttr != null)
+                {
+                    var cellPerRow = IntHelper.TryParseDefault(cellPerRowAttr.Value, -1);
+                    cellPerRowAttr.Value = (cellPerRow + tableData.DynamicColumns.Count).ToString();
+                    cellwidthAttr.Value = cellwidthAttr.Value + (string.IsNullOrEmpty(cellwidthAttr.Value) ? "" : ",") +
+                        string.Join(",", tableData.DynamicColumns.Select(x => x.CellWidth));
+                }
+
+                foreach (var dynamicColumn in tableData.DynamicColumns) {
+                    // nconvert templates to xmlnode element
+                    var nodeHead = GenerateNode(dynamicColumn.HeaderTemplate);
+                    var nodeData = GenerateNode(dynamicColumn.DataTemplate);
+                    var nodeFoot = GenerateNode(dynamicColumn.FooterTemplate);
+
+                    // define dynamic table head items
+                    tableRowGroupHead.TableRows.ForEach(x =>
+                    {
+                        x.AddTableCell(BuildTableCell(nodeHead, fontHead));
+                    });
+                    // define dynamic tableloop items 
+                    tableRowGroupLoop.TableRows.ForEach(x =>
+                    {
+                        x.AddTableCell(BuildTableCell(nodeData, fontLoop));
+                    });
+                    // define dynamic table foot items 
+                    tableRowGroupFoot.TableRows.ForEach(x =>
+                    {
+                        x.AddTableCell(BuildTableCell(nodeFoot, fontFoot));
+                    });
+                }
+            }
 
             if (tableData.LoopData != null)
             {
@@ -146,19 +203,22 @@ namespace Moon.PDFTemplateItextSharp.Generators
             return tableRow;
         }
 
+        private XmlAttributeCollection GetFont(XmlNode node)
+        {
+            XmlAttributeCollection font = pdfTemplate.DefaultFontAttrs;
+            if (node?.FirstChild?.Name == "font")
+                font = node.FirstChild.Attributes;
+            return font;
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="node">tablehead, tableloop, tablefoot</param>
         /// <returns></returns>
-        private TableRowGroup BuildTableRowGroup(XmlNode node)
+        private TableRowGroup BuildTableRowGroup(XmlNode node, XmlAttributeCollection font)
         {
             TableRowGroup tableRowGroup = new TableRowGroup();
-            XmlAttributeCollection font = pdfTemplate.DefaultFontAttrs;
-            if (node.FirstChild.Name == "font")
-            {
-                font = node.FirstChild.Attributes;
-            }
 
             XmlNodeList tableRowNodes = node.SelectNodes(".//tablerow");
             if (tableRowNodes == null)
@@ -198,14 +258,14 @@ namespace Moon.PDFTemplateItextSharp.Generators
                         //iTextSharp.text.Phrase phrase = _pdfDraw.CreatePhrase(
                         //    ((PDFTemplate.TextBox)drawElement).GetText(data), drawElement.FontAttributes);
                         Paragraph paragraph = pdfDraw.CreateParagraph(((TextBox)drawElement).GetText(data), drawElement.FontAttributes);
-                        paragraph.Alignment = PDFDrawItextSharpHelper.Align(Helper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+                        paragraph.Alignment = PDFDrawItextSharpHelper.Align(XmlHelper.GetAttributeValue("align", drawElement.Attributes, "Left"));
 
                         cell.AddElement(paragraph);
                     }
                     else if (drawElement is PDFTemplate.Image)
                     {
                         iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(drawElement.Attributes);
-                        image.Alignment = PDFDrawItextSharpHelper.Align(Helper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+                        image.Alignment = PDFDrawItextSharpHelper.Align(XmlHelper.GetAttributeValue("align", drawElement.Attributes, "Left"));
 
                         cell.AddElement(image);
                     }
@@ -270,7 +330,7 @@ namespace Moon.PDFTemplateItextSharp.Generators
         {
             PDFDrawItextSharp.PDFDrawItextSharp pdfDraw = (PDFDrawItextSharp.PDFDrawItextSharp)pdfDrawer;
             PdfPTable table = pdfDraw.CreateTable(tableElement.Attributes);
-            float widthpercentage = Helper.GetAttributeWidthPercent(tableElement.Attributes);
+            float widthpercentage = XmlHelper.GetAttributeWidthPercent(tableElement.Attributes);
             if (widthpercentage > 0)
             {
                 table.TotalWidth = (pdfTemplate.PageDefinition.Width - pdfTemplate.PageDefinition.Margin_left - pdfTemplate.PageDefinition.Margin_right) * widthpercentage;

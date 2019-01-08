@@ -47,10 +47,10 @@ namespace Moon.PDFTemplate.XMAtributes
 			//process attrs...
 			if(attrs != null){
 				
-				this.ScaleToFit = Helper.GetAttributeBoolean( ScaleToFitAttributeConstant, attrs, false );
-				this.UseDocMargins = Helper.GetAttributeBoolean( MarginsAttributeConstant, attrs, false );
+				this.ScaleToFit = XmlHelper.GetAttributeBoolean( ScaleToFitAttributeConstant, attrs, false );
+				this.UseDocMargins = XmlHelper.GetAttributeBoolean( MarginsAttributeConstant, attrs, false );
 								
-				string alignment = Helper.GetAttributeValue( AlignmentAttributeConstant, attrs, null );
+				string alignment = XmlHelper.GetAttributeValue( AlignmentAttributeConstant, attrs, null );
 				if(alignment != null){
 					try{
 						object oParse = Enum.Parse( typeof( BackgroundImageDefinition.Alignment ), alignment, true );

@@ -9,6 +9,12 @@ namespace Moon.PDFTemplateItextSharp.Model
     public class TableData
     {
         /// <summary>
+        /// List of dynamic columns, will be added to the end of table 
+        /// Data related to dynamics columns needs to be in data fields like for static columns
+        /// </summary>
+        public List<DynamicColumnDefinition> DynamicColumns { get; set; }
+
+        /// <summary>
         /// table header data
         /// </summary>
         public Hashtable HeadData { get; set; }

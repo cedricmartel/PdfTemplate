@@ -38,7 +38,7 @@ namespace TestApp.XMLElements
 		}
 		
 		protected void LoadTextAttr(){
-			base.Text = Moon.PDFDraw.Helper.GetAttributeValue(TextBox.TextAttributeConstant, TextAttrs, "");
+			base.Text = Moon.PDFDraw.XmlHelper.GetAttributeValue(TextBox.TextAttributeConstant, TextAttrs, "");
 		}
 		
 		/// <summary>

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Moon.PDFTemplateItextSharp</RootNamespace>
     <AssemblyName>Moon.PDFTemplateItextSharp</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generators\BodyGenerator.cs" />
+    <Compile Include="Model\DynamicColumnDefinition.cs" />
     <Compile Include="Model\TableData.cs" />
     <Compile Include="PDFTemplateItextSharp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

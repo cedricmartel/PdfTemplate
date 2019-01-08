@@ -8,7 +8,7 @@ namespace Moon.PDFDraw
 	/// XML data helper.
 	/// <para/>20141203 :: Secure code.
 	/// </summary>
-	public class Helper
+	public class XmlHelper
 	{
 		/// <summary>
 		/// Gets int value from XML attribute

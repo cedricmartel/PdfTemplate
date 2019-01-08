@@ -112,10 +112,19 @@ namespace Moon.PDFDraw
 		/// <param name="imageAttrs"></param>
 		void DrawImage(float x, string src, XmlAttributeCollection imageAttrs);
 
-		/// <summary>
-		/// Creates a new page
-		/// </summary>
-		void NextPage();
+        /// <summary>
+        /// Draws a image
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="src"></param>
+        /// <param name="imageAttrs"></param>
+        void DrawImage(float x, float y, string src, XmlAttributeCollection imageAttrs);
+
+        /// <summary>
+        /// Creates a new page
+        /// </summary>
+        void NextPage();
 		
 		/// <summary>
 		/// Creates a new row

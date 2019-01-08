@@ -66,11 +66,11 @@ namespace Moon.PDFTemplate
 
 		private void init()
 		{
-			x1 = PDFDraw.Helper.GetFloatAttributeValue(XInitAttributeConstant, lineAttrs, -1);
-			x2 = PDFDraw.Helper.GetFloatAttributeValue(XEndAttributeConstant, lineAttrs, -1);
+			x1 = PDFDraw.XmlHelper.GetFloatAttributeValue(XInitAttributeConstant, lineAttrs, -1);
+			x2 = PDFDraw.XmlHelper.GetFloatAttributeValue(XEndAttributeConstant, lineAttrs, -1);
 			if (x1 == -1 && x2 == -1)
 			{
-				Width_percent = PDFDraw.Helper.GetAttributeWidthPercent(lineAttrs);
+				Width_percent = PDFDraw.XmlHelper.GetAttributeWidthPercent(lineAttrs);
 			}
 		}
 
@@ -114,7 +114,7 @@ namespace Moon.PDFTemplate
 		/// <returns></returns>
 		public override float GetHeight()
 		{
-			return PDFDraw.Helper.GetFloatAttributeValue(FontSizeAttributeConstant, FontAttributes, 10);
+			return PDFDraw.XmlHelper.GetFloatAttributeValue(FontSizeAttributeConstant, FontAttributes, 10);
 		}
 	}
 }

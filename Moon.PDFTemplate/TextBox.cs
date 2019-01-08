@@ -110,12 +110,12 @@ namespace Moon.PDFTemplate
 		/// Init and configure elemento. Loads varcontrol.
 		/// </summary>
 		private void init(){
-			Width_percent = PDFDraw.Helper.GetAttributeWidthPercent(Attributes);
+			Width_percent = PDFDraw.XmlHelper.GetAttributeWidthPercent(Attributes);
 			
 			//load var control.
 			if(Attributes != null){
 				try{
-					string vVarCtrl = PDFDraw.Helper.GetAttributeValue( VarControlAttributeConstant, Attributes, null) ;
+					string vVarCtrl = PDFDraw.XmlHelper.GetAttributeValue( VarControlAttributeConstant, Attributes, null) ;
 					if(vVarCtrl != null){
 						this._varControl =
 							(VarValuesControl)Enum.Parse( typeof( VarValuesControl), vVarCtrl, true);
@@ -204,7 +204,7 @@ namespace Moon.PDFTemplate
 		/// <returns></returns>
 		public override float GetHeight()
 		{
-			return PDFDraw.Helper.GetFloatAttributeValue( FontSizeAttributeConstant, FontAttributes, 10);
+			return PDFDraw.XmlHelper.GetFloatAttributeValue( FontSizeAttributeConstant, FontAttributes, 10);
 		}
 		
 		/// <summary>

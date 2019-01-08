@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Moon.PDFTemplateItextSharp.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Web.UI;
-using Moon.PDFTemplateItextSharp.Model;
 
-namespace fr.cedricmartel.SampleItextSharp.MultipleTables
+namespace fr.cedricmartel.SampleItextSharp.DynColumns
 {
-    public partial class Default : Page
+    public partial class Default : System.Web.UI.Page
     {
         private readonly Hashtable headerData = new Hashtable();
         private readonly Hashtable bodyData = new Hashtable();
         private readonly Hashtable footerData = new Hashtable();
+
+        private Random randonGen;
 
         protected void GenerationPdf(object sender, EventArgs e)
         {
@@ -28,6 +30,16 @@ namespace fr.cedricmartel.SampleItextSharp.MultipleTables
             // data load
             var firstTable = new TableData
             {
+                DynamicColumns = new List<DynamicColumnDefinition>
+                {
+                    new DynamicColumnDefinition()
+                    {
+                        CellWidth = 1,
+                        HeaderTemplate = "<tablecell border=\"Top, Bottom\" backgroundcolor=\"#9BCFF9\"><textbox text=\"DYNAMIC\" align=\"right\"></textbox></tablecell>", 
+                        DataTemplate = "<tablecell border=\"Top, Bottom\"><textbox text=\"{Frais}\"><var name=\"{Frais}\" /></textbox></tablecell>",
+                        FooterTemplate = "<tablecell />"
+                    }
+                }, 
                 HeadData = new Hashtable(),
                 LoopData = new List<Hashtable>(),
                 FootData = new Hashtable()
@@ -48,7 +60,6 @@ namespace fr.cedricmartel.SampleItextSharp.MultipleTables
             }
             firstTable.FootData.Add("{Total}", 250.5);
             bodyData.Add("{FirstTable}", firstTable);
-            bodyData.Add("{SecondTable}", firstTable);
 
             // pdf generation
             pdfTemplate.Draw(headerData, bodyData, footerData);
@@ -67,5 +78,6 @@ namespace fr.cedricmartel.SampleItextSharp.MultipleTables
 
             Resulat.Text = "Generated PDF: <a href='../Output/" + fileName + "'>" + fileName + "</a><br/><br/><iframe src='../Output/" + fileName + "' width='1024' height='600' />";
         }
+
     }
 }

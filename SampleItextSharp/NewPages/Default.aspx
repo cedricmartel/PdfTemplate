@@ -3,7 +3,7 @@
 <asp:Content ContentPlaceHolderID="PageContent" runat="server">
     <h2>
         New pages
-        <asp:Button runat="server" Text="Génération PDF" OnClick="GenerationPdf" CssClass="btn btn-primary btn-sm btn-lg" />
+        <asp:Button runat="server" Text="Generate PDF" OnClick="GenerationPdf" CssClass="btn btn-primary btn-sm btn-lg" />
     </h2>
     <p class="well">
         <asp:Label runat="server" ID="Resulat" ></asp:Label>

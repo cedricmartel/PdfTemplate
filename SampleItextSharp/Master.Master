@@ -1,12 +1,9 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="fr.cedricmartel.SampleItextSharp.Master" %>
-
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ITextSharp Template</title>
-
+    <title>PDF Template tester</title>
 
     <%--jquery--%>
     <script src="/Scripts/jquery-1.9.1.min.js"></script>
@@ -15,35 +12,30 @@
     <link href="/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="/Scripts/bootstrap.min.js"></script>
 
-    <style>
-        body {
-            padding-top: 3em;
-        }
-    </style>
-
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <%--menu--%>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default" style="margin-bottom:0em;">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/Default.aspx">Tests ITextSharp</a>
+                <a class="navbar-brand" href="/Default.aspx">PDF Template tester</a>
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/SimpleTest/Default.aspx">Simple generation</a></li>
+                    <li><a href="/SimpleTest/Default.aspx">Simple usage</a></li>
                     <li><a href="/MultipleTables/Default.aspx">Multiple tables</a></li>
                     <li><a href="/ConditionalDisplay/Default.aspx">Conditional display</a></li>
                     <li><a href="/NewPages/Default.aspx">New pages</a></li>
-                    <li><a href="/NewPagesOrientation/Default.aspx">New pages with orientation</a></li>
+                    <li><a href="/NewPagesOrientation/Default.aspx">Orientations</a></li>
+                    <li><a href="/DynColumns/Default.aspx">Dyn. columns</a></li>
+                    <li><a href="/DynTables/Default.aspx">Dyn. tables</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <form runat="server">
         <div class="container">
             <asp:ContentPlaceHolder ID="PageContent" runat="server">

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Moon.PDFDraw;
 using Moon.PDFDrawItextSharp;
@@ -12,6 +7,11 @@ using Moon.PDFTemplate.Model;
 using Moon.PDFTemplateItextSharp.Generators;
 using Moon.PDFTemplateItextSharp.Model;
 using Moon.Utils;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using Image = iTextSharp.text.Image;
 using Version = System.Version;
 
@@ -206,7 +206,7 @@ namespace Moon.PDFTemplateItextSharp
         {
             ((PDFDrawItextSharp.PDFDrawItextSharp)PdfDrawer).SetDocumentProperties(docProperties);
         }
-        
+
         /// <summary>
         /// This object is used to exclusively lock usage fvor Close method bellow, to prevent concurrency errors on loading fonts 
         /// </summary>
@@ -220,7 +220,7 @@ namespace Moon.PDFTemplateItextSharp
         {
             lock (ClosingFileLocker)
             {
-                PDFDrawItextSharp.PDFDrawItextSharp p = (PDFDrawItextSharp.PDFDrawItextSharp) PdfDrawer;
+                PDFDrawItextSharp.PDFDrawItextSharp p = (PDFDrawItextSharp.PDFDrawItextSharp)PdfDrawer;
                 Font font = null;
                 if (PageNumberBoxes != null && PageNumberBoxes.Count > 0)
                 {
@@ -279,7 +279,7 @@ namespace Moon.PDFTemplateItextSharp
 
                     Hashtable data = new Hashtable
                     {
-                        {"{__PAGE__}", currentPage}, 
+                        {"{__PAGE__}", currentPage},
                         {"{__TOTALPAGE__}", totalPage}
                     };
 
@@ -290,7 +290,7 @@ namespace Moon.PDFTemplateItextSharp
                     //Console.WriteLine("chunk.Content: " + chunk.Content);
                     //iTextSharp.text.pdf.ColumnText column = new iTextSharp.text.pdf.ColumnText(cb);
                     int align = PDFDrawItextSharpHelper.Align(
-                        Helper.GetAttributeValue(
+                        XmlHelper.GetAttributeValue(
                             "align",
                             pageNumberBox.Attributes, "Left"));
 
@@ -314,7 +314,7 @@ namespace Moon.PDFTemplateItextSharp
         {
             // this will call from PDFTemplate._buildPageDef()
             if (pageSize == null)
-                pageSize = PDFDrawItextSharpHelper.PageSize(Helper.GetAttributeValue("pagesize", PageDefinition.PageDefAttrs, "A4"));
+                pageSize = PDFDrawItextSharpHelper.PageSize(XmlHelper.GetAttributeValue("pagesize", PageDefinition.PageDefAttrs, "A4"));
 
             if (orientation != CurrentOrientation)
             {
@@ -357,6 +357,7 @@ namespace Moon.PDFTemplateItextSharp
                 bodyGenerator = new BodyGenerator(this, bodyNode);
         }
 
+        #region constructors 
         /// <summary>
         /// Draw PDF using the template with minimal variables, enabling body multiple tables 
         /// </summary>
@@ -385,17 +386,11 @@ namespace Moon.PDFTemplateItextSharp
             Hashtable tableFootData)
         {
             if (headerData != null)
-            {
                 this.headerData = headerData;
-            }
             if (bodyData != null)
-            {
                 this.bodyData = bodyData;
-            }
             if (footerData != null)
-            {
                 this.footerData = footerData;
-            }
 
             var tableData = new TableData
             {
@@ -428,6 +423,7 @@ namespace Moon.PDFTemplateItextSharp
             EachPageCount.Add(PageCount);
             DrawCallCounter++;
         }
+        #endregion 
 
         #region Register fonts
 

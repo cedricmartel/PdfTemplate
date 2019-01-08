@@ -98,10 +98,10 @@ namespace Moon.PDFTemplate
 		/// <returns></returns>
 		public override float GetHeight()
 		{
-			float height = PDFDraw.Helper.GetFloatAttributeValue(HeightAttributeConstant, TextAttrs, -1);
+			float height = PDFDraw.XmlHelper.GetFloatAttributeValue(HeightAttributeConstant, TextAttrs, -1);
 			if (height == -1)
 			{
-				height = PDFDraw.Helper.GetFloatAttributeValue(HeightAttributeConstant, FontAttributes, 10);
+				height = PDFDraw.XmlHelper.GetFloatAttributeValue(HeightAttributeConstant, FontAttributes, 10);
 			}
 			return height;
 		}

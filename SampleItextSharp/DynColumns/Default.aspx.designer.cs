@@ -7,7 +7,7 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
-namespace fr.cedricmartel.SampleItextSharp.NewPagesOrientation {
+namespace fr.cedricmartel.SampleItextSharp.DynColumns {
     
     
     public partial class Default {

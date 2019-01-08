@@ -64,15 +64,15 @@ namespace Moon.PDFTemplate
 
 		private void init()
 		{
-			margin_left = PDFDraw.Helper.GetFloatAttributeValue(MarginLeftAttributeConstant, pageDefAttrs, 20);
-			margin_right = PDFDraw.Helper.GetFloatAttributeValue(MarginRightAttributeConstant, pageDefAttrs, 20);
-			margin_top = PDFDraw.Helper.GetFloatAttributeValue(MarginTopAttributeConstant, pageDefAttrs, 20);
-			margin_bottom = PDFDraw.Helper.GetFloatAttributeValue(MarginBottonAttributeConstant, pageDefAttrs, 20);
-			width = PDFDraw.Helper.GetFloatAttributeValue(WidthAttributeConstant, pageDefAttrs, -1);
-			height = PDFDraw.Helper.GetFloatAttributeValue(HeightAttributeConstant, pageDefAttrs, -1);
+			margin_left = PDFDraw.XmlHelper.GetFloatAttributeValue(MarginLeftAttributeConstant, pageDefAttrs, 20);
+			margin_right = PDFDraw.XmlHelper.GetFloatAttributeValue(MarginRightAttributeConstant, pageDefAttrs, 20);
+			margin_top = PDFDraw.XmlHelper.GetFloatAttributeValue(MarginTopAttributeConstant, pageDefAttrs, 20);
+			margin_bottom = PDFDraw.XmlHelper.GetFloatAttributeValue(MarginBottonAttributeConstant, pageDefAttrs, 20);
+			width = PDFDraw.XmlHelper.GetFloatAttributeValue(WidthAttributeConstant, pageDefAttrs, -1);
+			height = PDFDraw.XmlHelper.GetFloatAttributeValue(HeightAttributeConstant, pageDefAttrs, -1);
 			
 			//20130607
-			string biPath = PDFDraw.Helper.GetAttributeValue(BackgroundImageAttributeConstant, pageDefAttrs, null );
+			string biPath = PDFDraw.XmlHelper.GetAttributeValue(BackgroundImageAttributeConstant, pageDefAttrs, null );
 			if(biPath != null){
 				_backgroundImage = new XMLBackgroundImageDefinition( biPath, pageDefAttrs ); //auto load attrs.
 			}
