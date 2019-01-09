@@ -31,7 +31,6 @@
                     <li><a href="/NewPages/Default.aspx">New pages</a></li>
                     <li><a href="/NewPagesOrientation/Default.aspx">Orientations</a></li>
                     <li><a href="/DynColumns/Default.aspx">Dyn. columns</a></li>
-                    <li><a href="/DynTables/Default.aspx">Dyn. tables</a></li>
                 </ul>
             </div>
         </div>

@@ -94,27 +94,25 @@ namespace Moon.PDFTemplateItextSharp.Generators
 
                 foreach (var dynamicColumn in tableData.DynamicColumns) {
                     // nconvert templates to xmlnode element
-                    var nodeHead = string.IsNullOrEmpty(dynamicColumn.HeaderTemplate) ? null : GenerateNode(dynamicColumn.HeaderTemplate);
+                    var nodeHead = GenerateNode(dynamicColumn.HeaderTemplate);
                     var nodeData = GenerateNode(dynamicColumn.DataTemplate);
-                    var nodeFoot = string.IsNullOrEmpty(dynamicColumn.FooterTemplate) ? null : GenerateNode(dynamicColumn.FooterTemplate);
+                    var nodeFoot = GenerateNode(dynamicColumn.FooterTemplate);
 
                     // define dynamic table head items
-                    if(nodeHead != null)
-                        tableRowGroupHead.TableRows.ForEach(x =>
-                        {
-                            x.AddTableCell(BuildTableCell(nodeHead, fontHead));
-                        });
+                    tableRowGroupHead.TableRows.ForEach(x =>
+                    {
+                        x.AddTableCell(BuildTableCell(nodeHead, fontHead));
+                    });
                     // define dynamic tableloop items 
                     tableRowGroupLoop.TableRows.ForEach(x =>
                     {
                         x.AddTableCell(BuildTableCell(nodeData, fontLoop));
                     });
                     // define dynamic table foot items 
-                    if(nodeFoot != null)
-                        tableRowGroupFoot.TableRows.ForEach(x =>
-                        {
-                            x.AddTableCell(BuildTableCell(nodeFoot, fontFoot));
-                        });
+                    tableRowGroupFoot.TableRows.ForEach(x =>
+                    {
+                        x.AddTableCell(BuildTableCell(nodeFoot, fontFoot));
+                    });
                 }
             }
 
@@ -266,12 +264,22 @@ namespace Moon.PDFTemplateItextSharp.Generators
                     }
                     else if (drawElement is PDFTemplate.Image)
                     {
+<<<<<<< HEAD
+                        iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(drawElement.Attributes);
+                        image.Alignment = PDFDrawItextSharpHelper.Align(XmlHelper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+=======
+                        //iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(drawElement.Attributes);
+                        //image.Alignment = PDFDrawItextSharpHelper.Align(Helper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+>>>>>>> 4843a7543ed9acca59d8d73d52210b118f6609d7
+
+                        //cell.AddElement(image);
+
                         // 2017-11-23 : fix error image in table
-                        string src = XmlHelper.GetAttributeValue("src", drawElement.Attributes, "");
+                        string src = Moon.PDFDraw.Helper.GetAttributeValue("src", drawElement.Attributes, "");
                         if (data.Contains(src))
                         {
                             iTextSharp.text.Image image = pdfDraw.CreateImageFromAttribute(data[src].ToString(), drawElement.Attributes);
-                            image.Alignment = PDFDrawItextSharpHelper.Align(XmlHelper.GetAttributeValue("align", drawElement.Attributes, "Left"));
+                            image.Alignment = PDFDrawItextSharpHelper.Align(Helper.GetAttributeValue("align", drawElement.Attributes, "Left"));
 
                             cell.AddElement(image);
                         }

@@ -800,8 +800,18 @@ namespace Moon.PDFDrawItextSharp
 			iTextSharp.text.BaseColor color = new iTextSharp.text.BaseColor(Moon.PDFDraw.XmlHelper.GetAttributeColor(ColorAttributeConstant, lineAttrs, "Black"));
 			float lineThickness = Moon.PDFDraw.XmlHelper.GetFloatAttributeValue(LineThicknessAttributeConstant,lineAttrs,  1f);
 
-			DrawVerticalLine(x_start, x_end, lineThickness, color);
-		}
+            float absY1 = XmlHelper.GetFloatAttributeValue("y1", lineAttrs, -1);
+            float absY2 = XmlHelper.GetFloatAttributeValue("y2", lineAttrs, -1);
+
+            if (absY1 != -1 && absY2 != -1)
+            {
+                DrawLine(x_start, x_end, absY1, absY2, lineThickness, color);
+            }
+            else
+            {
+                DrawVerticalLine(x_start, x_end, lineThickness, color);
+            }
+        }
 		/// <summary>
 		/// Draw a vertical line on the current y with default line width of 1
 		/// </summary>
@@ -841,15 +851,33 @@ namespace Moon.PDFDrawItextSharp
 			iPDFContent.Stroke();
 			iPDFContent.RestoreState();
 		}
-		
-		
-		
-		/// <summary>
-		/// Draw on CurrentY
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="imageAttrs"></param>
-		public void DrawImage(float x, XmlAttributeCollection imageAttrs)
+
+        /// <summary>
+        /// Draws a line with absolute positions 
+        /// </summary>
+        /// <param name="x_start"></param>
+        /// <param name="x_end"></param>
+        /// <param name="y_start"></param>
+        /// <param name="y_end"></param>
+        /// <param name="lineWidth"></param>
+        /// <param name="color"></param>
+        public void DrawLine(float x_start, float x_end, float y_start, float y_end, float lineWidth, iTextSharp.text.BaseColor color)
+        {
+            iPDFContent.SaveState();
+            iPDFContent.SetLineWidth(lineWidth);
+            iPDFContent.SetColorStroke(color);
+            iPDFContent.MoveTo(x_start, y_start);
+            iPDFContent.LineTo(x_end, y_end);
+            iPDFContent.Stroke();
+            iPDFContent.RestoreState();
+        }
+
+        /// <summary>
+        /// Draw on CurrentY
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="imageAttrs"></param>
+        public void DrawImage(float x, XmlAttributeCollection imageAttrs)
 		{
 			iTextSharp.text.Image img = CreateImageFromAttribute(imageAttrs);
 			_PreITextDrawImage(img, x, Current_y, imageAttrs);
@@ -880,6 +908,14 @@ namespace Moon.PDFDrawItextSharp
 			DrawImage(img, x, y);
 		}
 
+        /// <summary>
+        /// Draw at absolute position x, y
+        /// <para/>Doesn't support alignment.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="src"></param>
+        /// <param name="imageAttrs"></param>
         public void DrawImage(float x, float y, string src, XmlAttributeCollection imageAttrs)
         {
             iTextSharp.text.Image img = CreateImageFromAttribute(src, imageAttrs);
